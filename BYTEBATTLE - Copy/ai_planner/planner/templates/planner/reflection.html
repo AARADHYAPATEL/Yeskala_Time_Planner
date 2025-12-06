@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="midnight">
+
+<head>
+    <meta charset="UTF-8">
+    <title>End of Day Reflection • AI Time Planner</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #020617;
+            color: #e5e7eb;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 720px;
+            background: rgba(15, 23, 42, 0.96);
+            border-radius: 1.25rem;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            padding: 1.75rem;
+            box-shadow: 0 22px 40px rgba(0, 0, 0, 0.7);
+        }
+
+        h1 {
+            margin: 0 0 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .subtitle {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .textarea,
+        .input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            color: #e5e7eb;
+            border-radius: 0.6rem;
+            border: 1px solid rgba(55, 65, 81, 0.9);
+            padding: 0.55rem 0.7rem;
+            font-size: 0.9rem;
+            outline: none;
+            resize: vertical;
+        }
+
+        .textarea {
+            min-height: 140px;
+        }
+
+        .textarea:focus,
+        .input:focus {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.5);
+        }
+
+        .hint {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-top: 0.25rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.9rem;
+        }
+
+        label {
+            font-size: 0.8rem;
+            color: #cbd5f5;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #0ea5e9, #6366f1);
+            color: #020617;
+            border: none;
+            padding: 0.6rem 1.35rem;
+            border-radius: 999px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+        }
+
+        .btn-link {
+            margin-left: 0.75rem;
+            font-size: 0.85rem;
+            color: #93c5fd;
+            text-decoration: none;
+        }
+
+        .plan-preview {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            margin-bottom: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>End of Day Reflection</h1>
+        <p class="subtitle">
+            This takes under a minute. Tomorrow's AI plan will adapt based on what actually happened today.
+        </p>
+
+        {% if day_log %}
+        <div class="plan-preview">
+            <strong>Date:</strong> {{ today }}<br>
+            <strong>Planned tasks:</strong> based on your AI schedule generated earlier today.
+        </div>
+        {% else %}
+        <div class="plan-preview">
+            No plan found for today. Generate a plan first, then come back to reflect.
+        </div>
+        {% endif %}
+
+        {% if day_log %}
+        <form method="post">
+            {% csrf_token %}
+            <label>
+                What actually happened today?
+                <textarea name="reflection" class="textarea"
+                    placeholder="Example: Finished math + physics, skipped Hindi reading, took an unplanned 1-hour nap after lunch, focus was 8/10 at night...">{{ day_log.reflection_text }}</textarea>
+            </label>
+            <p class="hint">Be honest. This is only used to make future plans more realistic and less stressful.</p>
+
+            <div class="grid-3">
+                <div>
+                    <label>Morning energy (1–10)</label>
+                    <input type="number" class="input" name="energy_morning" min="1" max="10"
+                        value="{{ day_log.energy_morning|default_if_none:'' }}">
+                </div>
+                <div>
+                    <label>Afternoon energy (1–10)</label>
+                    <input type="number" class="input" name="energy_afternoon" min="1" max="10"
+                        value="{{ day_log.energy_afternoon|default_if_none:'' }}">
+                </div>
+                <div>
+                    <label>Night energy (1–10)</label>
+                    <input type="number" class="input" name="energy_evening" min="1" max="10"
+                        value="{{ day_log.energy_evening|default_if_none:'' }}">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">Save reflection</button>
+            <a href="{% url 'planner' %}" class="btn-link">Back to planner</a>
+        </form>
+        {% endif %}
+    </div>
+</body>
+
+</html>

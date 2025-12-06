@@ -1,0 +1,269 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Task Library</title>
+    <style>
+        body {
+            background: var(--bg-body, #020617);
+            color: var(--text-main, #e5e7eb);
+            font-family: system-ui;
+            padding: 2rem;
+        }
+
+        .box {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border-subtle, rgba(148, 163, 184, 0.3));
+            padding: 1.5rem;
+            border-radius: 1rem;
+            max-width: 700px;
+            margin: auto;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .task-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+        }
+
+        .task-row:last-child {
+            border-bottom: none;
+        }
+
+        input,
+        select {
+            padding: 0.4rem;
+            border-radius: 6px;
+            border: 1px solid rgba(148, 163, 184, 0.4);
+            background: rgba(15, 23, 42, 0.6);
+            color: var(--text-main);
+            margin-top: 0.3rem;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: var(--accent, #0ea5e9);
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        a.delete {
+            color: #f87171;
+            text-decoration: none;
+        }
+
+        a.back {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--accent);
+        }
+
+        .task-form {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) 160px;
+            grid-template-rows: auto auto;
+            column-gap: 1.5rem;
+            row-gap: 0.9rem;
+            align-items: end;
+            margin-top: 1rem;
+        }
+
+        .task-form label {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-main, #e5e7eb);
+        }
+
+        .task-form input,
+        .task-form select {
+            margin-top: 0.25rem;
+            padding: 0.5rem 0.7rem;
+            border-radius: 0.6rem;
+            border: 1px solid rgba(148, 163, 184, 0.5);
+            background: rgba(15, 23, 42, 0.85);
+            color: var(--text-main, #e5e7eb);
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        .task-form input::placeholder {
+            color: rgba(148, 163, 184, 0.8);
+        }
+
+        .task-form button {
+            grid-row: span 2;
+            align-self: stretch;
+            padding: 0.7rem 1.2rem;
+            border-radius: 999px;
+            border: none;
+            background: linear-gradient(90deg, #0ea5e9, #22c55e);
+            color: #0b1120;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 12px 28px rgba(15, 185, 255, 0.25);
+            transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+        }
+
+        .task-form button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 18px 36px rgba(15, 185, 255, 0.35);
+            filter: brightness(1.05);
+        }
+
+        .task-form button:active {
+            transform: translateY(0);
+            box-shadow: 0 8px 18px rgba(15, 185, 255, 0.25);
+        }
+
+        /* Mobile tweak: stack everything vertically */
+        @media (max-width: 780px) {
+            .task-form {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            .task-form button {
+                grid-row: auto;
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.7rem;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-muted);
+            transition: 0.15s ease;
+        }
+
+        .back-link:hover {
+            color: var(--accent);
+            text-shadow: 0 0 6px var(--accent);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .saved-task-list {
+            margin-top: 1.5rem;
+            padding: 0;
+            list-style: none;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(4px);
+        }
+
+        .saved-task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .saved-task-item:last-child {
+            border-bottom: none;
+        }
+
+        .saved-task-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(3px);
+        }
+
+        .task-info {
+            font-size: 1.05rem;
+            color: #e5e7eb;
+            font-weight: 500;
+        }
+
+        .task-meta {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        .delete-btn {
+            color: #ff6b6b;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s ease, transform 0.15s ease;
+        }
+
+        .delete-btn:hover {
+            color: #ff8787;
+            transform: translateX(2px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+        <h2>Task Library</h2>
+
+        <h3>Add New Task</h3>
+        <form method="POST" class="task-form">
+            {% csrf_token %}
+            <label>Name</label>
+            <input type="text" name="name" required>
+
+            <label>Default Duration (minutes)</label>
+            <input type="number" name="duration" value="30">
+
+            <label>Default Importance</label>
+            <select name="importance">
+                <option value="3">Must-do</option>
+                <option value="2" selected>Should-do</option>
+                <option value="1">Nice-to-have</option>
+            </select>
+
+            <label>Category (optional)</label>
+            <input type="text" name="category" placeholder="e.g. Homework, Sports">
+
+            <button type="submit">Save Task</button>
+        </form>
+
+        <h3 style="margin-top:2rem;">Saved Tasks</h3>
+
+        {% if tasks %}
+        <ul class="saved-task-list">
+            {% for t in tasks %}
+            <li class="saved-task-item">
+                <div>
+                    <div class="task-info">{{ t.name }}</div>
+                    <div class="task-meta">
+                        {{ t.default_duration_minutes }}m, importance {{ t.default_importance }}
+                    </div>
+                </div>
+
+                <a href="{% url 'delete_saved_task' t.id %}" class="delete-btn">Delete</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No saved tasks yet.</p>
+        {% endif %}
+
+
+        <a href="{% url 'planner' %}" class="back-link">← Back to Planner</a>
+    </div>
+
+</body>
+
+</html>

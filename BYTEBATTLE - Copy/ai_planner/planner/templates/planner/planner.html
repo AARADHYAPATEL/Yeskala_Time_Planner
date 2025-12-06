@@ -1,0 +1,1206 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="midnight">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yeskala Time Planner</title>
+    <style>
+        :root {
+            /* Default (if no theme set) */
+            --bg-body: radial-gradient(circle at top left, #020617 0%, #020617 45%, #000 100%);
+            --bg-surface: rgba(15, 23, 42, 0.96);
+            --bg-card: #020617;
+            --bg-card-soft: #020617;
+            --border-subtle: rgba(148, 163, 184, 0.2);
+            --accent: #0ea5e9;
+            --accent-2: #6366f1;
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --btn-text: #020617;
+            --pill-task-bg: rgba(34, 197, 94, 0.2);
+            --pill-task-border: #22c55e55;
+            --pill-task-text: #4ade80;
+            --pill-break-bg: rgba(250, 204, 21, 0.15);
+            --pill-break-border: #facc1544;
+            --pill-break-text: #facc15;
+        }
+
+
+
+        /* Midnight Focus – OG dark, a bit cooler now */
+        html[data-theme="midnight"] {
+            --bg-body: radial-gradient(circle at top left, #020617 0%, #020617 40%, #000 100%);
+            --bg-surface: rgba(15, 23, 42, 0.96);
+            --bg-card: #020617;
+            --bg-card-soft: #020617;
+            --border-subtle: rgba(148, 163, 184, 0.35);
+            --accent: #0ea5e9;
+            --accent-2: #6366f1;
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --btn-text: #020617;
+            --pill-task-bg: rgba(34, 197, 94, 0.18);
+            --pill-task-border: rgba(34, 197, 94, 0.7);
+            --pill-task-text: #4ade80;
+            --pill-break-bg: rgba(250, 204, 21, 0.14);
+            --pill-break-border: rgba(250, 204, 21, 0.7);
+            --pill-break-text: #facc15;
+        }
+
+        /* Neon Grid – harsh contrast, cyberpunk glow */
+        html[data-theme="neon"] {
+            --bg-body:
+                radial-gradient(circle at top left, #020617 0%, #020617 40%, #020617 70%, #000 100%),
+                repeating-linear-gradient(to right,
+                    rgba(34, 211, 238, 0.06) 0,
+                    rgba(34, 211, 238, 0.06) 1px,
+                    transparent 1px,
+                    transparent 24px),
+                repeating-linear-gradient(to bottom,
+                    rgba(232, 121, 249, 0.06) 0,
+                    rgba(232, 121, 249, 0.06) 1px,
+                    transparent 1px,
+                    transparent 24px);
+            --bg-surface: rgba(2, 6, 23, 0.96);
+            --bg-card: rgba(3, 7, 18, 0.96);
+            --bg-card-soft: #020617;
+            --border-subtle: rgba(244, 114, 182, 0.55);
+            --accent: #22d3ee;
+            /* cyan */
+            --accent-2: #e879f9;
+            /* neon pink */
+            --text-main: #f9fafb;
+            --text-muted: #a5b4fc;
+            --btn-text: #020617;
+            --pill-task-bg: rgba(52, 211, 153, 0.3);
+            --pill-task-border: rgba(52, 211, 153, 0.9);
+            --pill-task-text: #bbf7d0;
+            --pill-break-bg: rgba(250, 204, 21, 0.26);
+            --pill-break-border: rgba(250, 204, 21, 0.9);
+            --pill-break-text: #feeaa3;
+        }
+
+        /* Aurora Mist – dreamy, soft gradient vibe */
+        html[data-theme="aurora"] {
+            --bg-body: radial-gradient(circle at top left, #020617 0%, #0f172a 30%, #1e293b 65%, #020617 100%);
+            --bg-surface: rgba(15, 23, 42, 0.97);
+            --bg-card: #020617;
+            --bg-card-soft: #020617;
+            --border-subtle: rgba(129, 140, 248, 0.5);
+            --accent: #22c55e;
+            /* green */
+            --accent-2: #38bdf8;
+            /* light blue */
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --btn-text: #020617;
+            --pill-task-bg: linear-gradient(135deg, rgba(34, 197, 94, 0.23), rgba(56, 189, 248, 0.23));
+            --pill-task-border: rgba(56, 189, 248, 0.9);
+            --pill-task-text: #a5f3fc;
+            --pill-break-bg: rgba(196, 181, 253, 0.2);
+            --pill-break-border: rgba(196, 181, 253, 0.8);
+            --pill-break-text: #e9d5ff;
+        }
+
+        /* Solar Paper – clean light theme */
+        html[data-theme="solar"] {
+            --bg-body: radial-gradient(circle at top left, #fefce8 0%, #f4f4f5 40%, #e5e7eb 100%);
+            --bg-surface: #ffffff;
+            --bg-card: #f9fafb;
+            --bg-card-soft: #ffffff;
+            --border-subtle: rgba(148, 163, 184, 0.7);
+            --accent: #f97316;
+            /* orange */
+            --accent-2: #22c55e;
+            /* green */
+            --text-main: #0f172a;
+            --text-muted: #6b7280;
+            --btn-text: #020617;
+            --pill-task-bg: rgba(34, 197, 94, 0.14);
+            --pill-task-border: rgba(22, 163, 74, 0.7);
+            --pill-task-text: #15803d;
+            --pill-break-bg: rgba(251, 191, 36, 0.22);
+            --pill-break-border: rgba(217, 119, 6, 0.8);
+            --pill-break-text: #92400e;
+        }
+
+        /* Forest Study – deep green library energy */
+        html[data-theme="forest"] {
+            --bg-body: radial-gradient(circle at top left, #022c22 0%, #064e3b 35%, #020617 90%);
+            --bg-surface: rgba(6, 78, 59, 0.96);
+            --bg-card: #020617;
+            --bg-card-soft: #020617;
+            --border-subtle: rgba(52, 211, 153, 0.55);
+            --accent: #22c55e;
+            --accent-2: #16a34a;
+            --text-main: #ecfdf5;
+            --text-muted: #6ee7b7;
+            --btn-text: #022c22;
+            --pill-task-bg: rgba(34, 197, 94, 0.26);
+            --pill-task-border: rgba(34, 197, 94, 0.95);
+            --pill-task-text: #bbf7d0;
+            --pill-break-bg: rgba(56, 189, 248, 0.2);
+            --pill-break-border: rgba(56, 189, 248, 0.85);
+            --pill-break-text: #7dd3fc;
+        }
+
+
+        html,
+        body,
+        .container,
+        .card,
+        .textarea,
+        .btn-primary,
+        table,
+        .pill,
+        .schedule-time {
+            transition:
+                background 0.25s ease,
+                background-color 0.25s ease,
+                color 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            /* Fallback color (if the variable ever fails) */
+            background-color: #020617;
+
+            /* Main themed background */
+            background-image: var(--bg-body);
+
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+
+            color: var(--text-main);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0.75rem;
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1120px;
+            background: rgba(15, 23, 42, 0.55);
+            border-radius: 1.25rem;
+            border: 1px solid rgba(148, 163, 184, 0.15);
+            padding: 1.75rem 1.75rem 2rem;
+            box-shadow:
+                0 22px 40px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(22px) ;
+        }
+
+        /* Top bar with title + theme switcher */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: flex-start;
+            margin-bottom: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.25rem 1rem 1.5rem;
+                border-radius: 1rem;
+            }
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            margin: 0 0 0.25rem;
+            letter-spacing: 0.02em;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            margin: 0 0 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        .theme-switcher {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.25rem;
+            font-size: 0.8rem;
+        }
+
+        .theme-switcher label {
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        .theme-select {
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--text-main);
+            border-radius: 999px;
+            border: 1px solid rgba(55, 65, 81, 0.9);
+            padding: 0.35rem 0.9rem;
+            font-size: 0.8rem;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            position: relative;
+        }
+
+        :root[data-theme="solar"] .theme-select {
+            background: #f9fafb;
+            color: #0f172a;
+            border-color: rgba(148, 163, 184, 0.8);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.2fr);
+            gap: 1.25rem;
+        }
+
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .card {
+            background: radial-gradient(circle at top left, var(--bg-card) 0%, var(--bg-card-soft) 60%);
+            border-radius: 0.9rem;
+            border: 1px solid rgba(31, 41, 55, 0.9);
+            padding: 1rem 1.15rem 1.15rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.12), transparent 55%);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .card-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card h2 {
+            font-size: 1rem;
+            margin: 0 0 0.75rem;
+            background: linear-gradient(90deg, var(--accent), transparent 80%);
+            padding: 0.4rem 0.6rem;
+            border-radius: 0.45rem;
+            display: inline-block;
+        }
+
+        label {
+            font-size: 0.8rem;
+            color: #cbd5f5;
+            display: block;
+            margin-top: 0.5rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .textarea {
+            width: 95%;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--text-main);
+            border-radius: 0.6rem;
+            border: 1px solid rgba(55, 65, 81, 0.9);
+            padding: 0.6rem 0.7rem;
+            margin-top: 0.15rem;
+            font-size: 0.9rem;
+            outline: none;
+            resize: vertical;
+            min-height: 220px;
+            line-height: 1.4;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+        }
+
+        :root[data-theme="solar"] .textarea {
+            background: #f9fafb;
+            border-color: rgba(209, 213, 219, 0.9);
+        }
+
+        .textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.5);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        :root[data-theme="solar"] .textarea:focus {
+            background: #ffffff;
+        }
+
+        .hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--accent), var(--accent-2));
+            color: var(--btn-text);
+            border: none;
+            padding: 0.6rem 1.35rem;
+            border-radius: 999px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+            transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.9);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Card / border styling per theme */
+        :root[data-theme="neon"] .card {
+            border-color: rgba(244, 114, 182, 0.6);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.9);
+        }
+
+        :root[data-theme="aurora"] .card {
+            border-color: rgba(56, 189, 248, 0.5);
+            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
+        }
+
+        :root[data-theme="solar"] .card {
+            border-color: rgba(148, 163, 184, 0.6);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+        }
+
+        :root[data-theme="forest"] .card {
+            border-color: rgba(22, 163, 74, 0.7);
+            box-shadow: 0 18px 40px rgba(2, 6, 23, 0.95);
+        }
+
+        /* Buttons per theme */
+        :root[data-theme="solar"] .btn-primary {
+            box-shadow: 0 10px 20px rgba(248, 174, 88, 0.4);
+        }
+
+        :root[data-theme="neon"] .btn-primary {
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.9);
+        }
+
+        /* Textarea per theme – light vs dark handling */
+        :root[data-theme="solar"] .textarea {
+            background: #f9fafb;
+            border-color: rgba(209, 213, 219, 0.9);
+            color: #0f172a;
+        }
+
+        :root[data-theme="solar"] .textarea:focus {
+            background: #ffffff;
+        }
+
+        /* Schedule rows per theme */
+        :root[data-theme="solar"] tbody tr {
+            background: #f9fafb;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+        }
+
+        :root[data-theme="solar"] tbody tr:hover {
+            background: #ffffff;
+        }
+
+        :root[data-theme="neon"] tbody tr {
+            background: radial-gradient(circle at top left, #020617, #020617 60%, #020617);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.95);
+        }
+
+
+        .error {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(248, 113, 113, 0.7);
+            color: #fecaca;
+            padding: 0.75rem 0.85rem;
+            border-radius: 0.6rem;
+            margin-bottom: 1rem;
+            font-size: 0.83rem;
+        }
+
+        /* schedule table */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 0.7rem;
+            font-size: 0.86rem;
+        }
+
+        thead tr th {
+            padding: 0.35rem 0.35rem 0.15rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+        }
+
+        tbody tr {
+            background: #020617;
+            border-radius: 0.9rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.75);
+        }
+
+        :root[data-theme="solar"] tbody tr {
+            background: #f9fafb;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+        }
+
+        tbody tr:hover {
+            background: #0a1224;
+            transform: translateY(-2px);
+        }
+
+        :root[data-theme="solar"] tbody tr:hover {
+            background: #ffffff;
+        }
+
+        tbody tr td {
+            padding: 0.7rem 0.5rem;
+            border-bottom: none;
+            vertical-align: top;
+        }
+
+        tbody tr td:first-child {
+            padding-left: 0.85rem;
+            border-radius: 0.9rem 0 0 0.9rem;
+            width: 115px;
+        }
+
+        tbody tr td:last-child {
+            padding-right: 0.85rem;
+            border-radius: 0 0.9rem 0.9rem 0;
+            width: 70px;
+            text-align: center;
+        }
+
+        tbody tr td:first-child::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -18px;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, rgba(14, 165, 233, 0.4), transparent);
+            border-radius: 999px;
+        }
+
+        .schedule-time {
+            font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco;
+            font-size: 0.8rem;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #f9fafb;
+            padding: 0.3rem 0.55rem;
+            border-radius: 0.7rem;
+            font-weight: 600;
+            box-shadow: 0 0 12px rgba(14, 165, 233, 0.55);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.18rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.3rem;
+        }
+
+        .type-task {
+            background: var(--pill-task-bg);
+            color: var(--pill-task-text);
+            border: 1px solid var(--pill-task-border);
+        }
+
+        .type-break {
+            background: var(--pill-break-bg);
+            color: var(--pill-break-text);
+            border: 1px solid var(--pill-break-border);
+        }
+
+        .note {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 0.4rem;
+            line-height: 1.35;
+            font-style: italic;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.45s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        tbody tr {
+            background: #020617;
+            border-radius: 0.9rem;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.65);
+            transition: background 0.15s ease, transform 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background: #0a1224;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 500px) {
+            .schedule-time {
+                font-size: 0.7rem;
+                padding: 0.25rem 0.45rem;
+            }
+
+            tbody tr td {
+                padding: 0.5rem 0.35rem;
+            }
+        }
+
+        .card h2 {
+            background: linear-gradient(90deg, var(--accent) 0%, transparent 80%);
+            padding: 0.4rem 0.6rem;
+            border-radius: 0.45rem;
+        }
+
+        tbody tr td:first-child {
+            position: relative;
+        }
+
+        tbody tr td:first-child::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: -20px;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #0ea5e955, transparent);
+            border-radius: 1px;
+        }
+
+        .coach-note {
+            margin-top: 1rem;
+            padding: 0.75rem 0.9rem;
+            border-radius: 0.75rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .coach-note-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Default / dark themes */
+        .coach-note {
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            background: radial-gradient(circle at top left, rgba(8, 47, 73, 0.9), rgba(15, 23, 42, 0.95));
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.85);
+            color: #e5e7eb;
+        }
+
+        .coach-note-label {
+            color: #7dd3fc;
+        }
+
+        /* Solar variant */
+        :root[data-theme="solar"] .coach-note {
+            border-color: rgba(251, 191, 36, 0.7);
+            background: linear-gradient(135deg, #fffbeb, #fefce8);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
+            color: #1f2937;
+        }
+
+        :root[data-theme="solar"] .coach-note-label {
+            color: #92400e;
+        }
+
+        .control-bar {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .theme-control {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .control-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        /* Capsule-style selector */
+        .theme-select {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(6px);
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .theme-select:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Fix dropdown options visibility */
+        .theme-select option {
+            background-color: #111827;
+            /* dark & matches theme */
+            color: #e5e7eb !important;
+            /* bright text */
+            padding: 8px;
+        }
+
+        /* For light theme (Solar) */
+        html[data-theme="solar"] .theme-select option {
+            background-color: #ffffff;
+            color: #0f172a !important;
+        }
+
+
+        /* Preferences button */
+        .preferences-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 1rem;
+            background: linear-gradient(to right, #22c55e33, #22c55e11);
+            border: 1px solid #22c55e55;
+            border-radius: 999px;
+            font-weight: 600;
+            color: #22c55e;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: 0.15s ease;
+        }
+
+        .preferences-btn:hover {
+            background: linear-gradient(to right, #22c55e55, #22c55e22);
+            transform: translateY(-1px);
+        }
+
+        .preferences-btn .icon {
+            font-size: 1rem;
+        }
+
+        .calendar-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.8rem;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid var(--border-subtle);
+            border-radius: 999px;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            text-decoration: none;
+            backdrop-filter: blur(4px);
+            transition: 0.15s ease;
+        }
+
+        .calendar-pill:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-1px);
+        }
+
+        .saved-task-box label {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.6rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .saved-task-box label:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .saved-task-box input[type="checkbox"] {
+            transform: scale(1.2);
+            accent-color: var(--accent);
+        }
+
+        .btn-small {
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            background: linear-gradient(90deg, #0ea5e9, #6366f1);
+            color: #0b1120;
+            transition: 0.15s ease;
+        }
+
+        .btn-small:hover {
+            filter: brightness(1.1);
+        }
+
+        #fluid-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .calm-music-btn {
+            margin-top: 0.8rem;
+            padding: 0.55rem 1.2rem;
+            background: linear-gradient(to right, var(--accent), var(--accent-2));
+            border: none;
+            border-radius: 999px;
+            color: var(--btn-text);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s ease;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.4);
+        }
+
+        .calm-music-btn:hover {
+            filter: brightness(1.08);
+            transform: translateY(-2px);
+        }
+
+        .calm-music-btn:active {
+            transform: translateY(0px);
+        }
+
+
+
+    </style>
+</head>
+
+<body>
+    <canvas id="fluid-canvas"></canvas>
+    <div class="container">
+        <div class="top-bar">
+            <div>
+                <h1>Yeskala Time Planner</h1>
+                <p class="subtitle">
+                    Describe yourself and your day in your own words. Yeskala will understand your tasks, mood, and
+                    goals
+                    and
+                    build a full plan for today.
+                </p>
+            </div>
+            <div class="control-bar">
+
+                <!-- Theme selector -->
+                <div class="theme-control">
+                    <span class="control-label">Theme</span>
+                    <select id="theme-select" class="theme-select">
+                        <option value="midnight">Midnight Focus</option>
+                        <option value="neon">Neon Grid</option>
+                        <option value="aurora">Aurora Mist</option>
+                        <option value="solar">Solar Paper</option>
+                        <option value="forest">Forest Study</option>
+                    </select>
+                </div>
+
+                <!-- Preferences link -->
+                <a href="{% url 'preferences' %}" class="preferences-btn">
+                    <span class="icon">⚙️</span> Preferences
+                </a>
+
+                <button id="calm-music-btn" class="calm-music-btn">
+                    🎵 Play calming music
+                </button>
+
+
+            </div>
+
+        </div>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="grid">
+                <!-- Left: Free-text description -->
+                <div class="card">
+                    <div class="card-inner">
+                        <h2>Tell Yeskala about you &amp; today</h2>
+
+                        <label>
+                            <textarea class="textarea" name="description"
+                                placeholder="Example:
+I'm a Class 8 student. I slept late and I'm feeling a bit tired. I have Math homework (about 1 hour), Physics revision for a test tomorrow, 30 minutes of Hindi reading, and basketball practice in the evening from 6 to 7 PM. I usually focus better in the late morning and night, and I get stressed if I have too much back-to-back work. Please keep some breaks and don't put heavy study after 10 PM.">{{ form.description }}</textarea>
+                        </label>
+                        <div class="hint">
+                            You can include: how you feel, your tasks, deadlines, preferred times, breaks, exams,
+                            sports,
+                            anything.
+                        </div>
+                        <!-- Task Library Button -->
+                        <div style="margin-top:1.2rem;">
+                            <a href="{% url 'task_library' %}" style="
+                                  padding:0.55rem 1rem;
+                                  background:rgba(255,255,255,0.08);
+                                  border:1px solid rgba(148,163,184,0.3);
+                                  color:var(--text-main);
+                                  border-radius:999px;
+                                  font-size:0.9rem;
+                                  text-decoration:none;
+                                  backdrop-filter:blur(8px);
+                                  display:inline-flex;
+                                  gap:0.5rem;
+                                  align-items:center;
+                               ">
+                                📚 Open Task Library
+                            </a>
+                        </div>
+
+
+                        <button type="submit" class="btn-primary">Generate AI Schedule</button>
+                    </div>
+
+                    <div class="saved-task-box">
+                        <h3>Add Tasks From Library</h3>
+
+                        {% for t in saved_tasks %}
+                        <label>
+                            <input type="checkbox" name="library_task_{{ t.id }}">
+                            {{ t.name }} ({{ t.default_duration_minutes }}m)
+                        </label><br>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <!-- Right: Result schedule -->
+                <div class="card">
+                    <div class="card-inner">
+                        <h2>Today's AI Day Plan</h2>
+                        {% if mood %}
+                        <div style="
+                                margin-top:0.6rem;
+                                padding:0.5rem 0.8rem;
+                                border-radius:999px;
+                                display:inline-flex;
+                                align-items:center;
+                                gap:0.5rem;
+                                font-size:0.85rem;
+                                background:rgba(255,255,255,0.08);
+                                border:1px solid rgba(148,163,184,0.3);
+                            ">
+                            🧠 <strong>{{ mood.label|default:'Mood not detected'|capfirst }}</strong>
+                            {% if mood.intensity %}
+                            <span style="opacity:0.6;">(Intensity: {{ mood.intensity }}/10)</span>
+                            {% endif %}
+                        </div>
+
+                        {% if mood.reasoning %}
+                        <div style="
+                                margin-top:0.4rem;
+                                font-size:0.75rem;
+                                color:var(--text-muted);
+                            ">
+                            {{ mood.reasoning }}
+                        </div>
+                        {% endif %}
+                        {% endif %}
+
+
+                        {% if schedule %}
+                        <p class="hint" style="margin-top: 0.9rem;">
+                            At the end of your day, <a href="{% url 'planner_reflect' %}" style="color: #38bdf8;">add a
+                                quick reflection</a>
+                            so tomorrow's AI plan gets smarter.
+                        </p>
+                        <div style="margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <a href="{% url 'export_ics' %}" class="calendar-pill">
+                                📅 Add to Calendar (.ics)
+                            </a>
+
+                            <a href="{% url 'add_to_google_calendar' %}" class="calendar-pill"
+                                style="border-color:#22c55e;">
+                                🟢 Add directly to Google Calendar
+                            </a>
+
+
+
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 110px;">Time</th>
+                                    <th>Task / Block</th>
+                                    <th style="width: 80px;">Importance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in schedule %}
+                                <tr>
+                                    <td>
+                                        {% if item.start and item.end %}
+                                        <span class="schedule-time">
+                                            {{ item.start }} – {{ item.end }}
+                                        </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <strong>{{ item.task|default:item.type|capfirst }}</strong><br>
+                                        {% if item.type %}
+                                        <span class="pill type-{{ item.type }}">
+                                            {{ item.type|capfirst }}
+                                        </span>
+                                        {% endif %}
+                                        {% if item.note %}
+                                        <div class="note">{{ item.note }}</div>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.importance is not none %}
+                                        {% if item.importance == 3 %}
+                                        <span class="pill type-task">Must-do</span>
+                                        {% elif item.importance == 2 %}
+                                        <span class="pill type-task">Should-do</span>
+                                        {% elif item.importance == 1 %}
+                                        <span class="pill type-task">Nice-to-have</span>
+                                        {% else %}
+                                        <span class="pill type-break">Break</span>
+                                        {% endif %}
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        {% if coach_note %}
+                        <div style="
+                            margin-top: 1rem;
+                            padding: 0.75rem 0.9rem;
+                            border-radius: 0.75rem;
+                            border: 1px solid rgba(56,189,248,0.4);
+                            background: radial-gradient(circle at top left, rgba(8,47,73,0.9), rgba(15,23,42,0.95));
+                            box-shadow: 0 12px 25px rgba(0,0,0,0.85);
+                            font-size: 0.85rem;
+                            line-height: 1.4;
+                        ">
+                            <div class="coach-note">
+                                <div class="coach-note-label">
+                                    Yeskala Coach Note
+                                </div>
+                                <div class="coach-note-body">
+                                    {{ coach_note }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div style="margin-top: 1.2rem;">
+                            <a href="{% url 'planner_reflect' %}" style="
+                                   display: inline-block;
+                                   padding: 0.55rem 1.1rem;
+                                   background: linear-gradient(to right, var(--accent), var(--accent-2));
+                                   color: var(--btn-text);
+                                   border-radius: 999px;
+                                   font-weight: 600;
+                                   font-size: 0.85rem;
+                                   text-decoration: none;
+                                   box-shadow: 0 10px 22px rgba(0,0,0,0.45);
+                               ">
+                                End of Day Reflection
+                            </a>
+                        </div>
+
+
+                        {% else %}
+                        <p class="hint">Your personalized schedule will appear here after you submit your description.
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        (function () {
+            const btn = document.getElementById("calm-music-btn");
+
+            const audio = new Audio("{% static 'planner/audio/calm.mp3' %}");
+            audio.loop = true;
+
+            let isPlaying = false;
+
+            btn.addEventListener("click", () => {
+                if (!isPlaying) {
+                    audio.play();
+                    isPlaying = true;
+                    btn.textContent = "⏹ Stop music";
+                } else {
+                    audio.pause();
+                    audio.currentTime = 0;
+                    isPlaying = false;
+                    btn.textContent = "🎵 Play calming music";
+                }
+            });
+        })();
+    </script>
+
+
+    <script>
+        (function () {
+            const canvas = document.getElementById("fluid-canvas");
+            const ctx = canvas.getContext("2d");
+
+            let width, height, dpr;
+
+            function resize() {
+                dpr = window.devicePixelRatio || 1;
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width * dpr;
+                canvas.height = height * dpr;
+                ctx.scale(dpr, dpr);
+            }
+            window.addEventListener("resize", resize);
+            resize();
+
+            // each "blob" is a fluid splash
+            let blobs = [];
+            let hue = 0;
+
+            window.addEventListener("mousemove", (e) => {
+                blobs.push({
+                    x: e.clientX,
+                    y: e.clientY,
+                    r: 0,
+                    alpha: 1
+                });
+            });
+
+            function draw() {
+                // fade old frame → fluid effect
+                ctx.fillStyle = "rgba(0, 0, 0, 0.10)";
+                ctx.fillRect(0, 0, width, height);
+
+                hue = (hue + 1.5) % 360;
+
+                for (let i = blobs.length - 1; i >= 0; i--) {
+                    const b = blobs[i];
+
+                    // color changes smoothly → rainbow
+                    const color = `hsla(${hue}, 90%, 60%, ${b.alpha})`;
+
+                    ctx.beginPath();
+                    ctx.fillStyle = color;
+                    ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // blob physics → expansion + fade
+                    b.r += 2.5;
+                    b.alpha -= 0.015;
+
+                    if (b.alpha <= 0) blobs.splice(i, 1);
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+    </script>
+
+
+
+    <script>
+        (function () {
+            const select = document.getElementById('theme-select');
+            const root = document.documentElement;
+            const STORAGE_KEY = 'ai-planner-theme';
+
+            // Load saved theme
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                root.setAttribute('data-theme', saved);
+                if (select) select.value = saved;
+            }
+
+            if (select) {
+                select.addEventListener('change', function () {
+                    const val = this.value;
+                    root.setAttribute('data-theme', val);
+                    localStorage.setItem(STORAGE_KEY, val);
+                });
+            }
+        })();
+    </script>
+</body>
+
+</html>
