@@ -5,3 +5,5 @@ Just enter your day plan in the text box and an entire plan of the day will be g
 You can also choose a theme from the themes given and your chosen theme is stored in localstorage and your tasks in the task library is stored in JSON files.
 
 The AI engine used here is GPT-4o as it is fast but also provides quality responses without ignoring aspects of your request. This app is coded on an HTML/CSS/JS frontend with an Python: Django backend.
+
+The link to the sound is here: https://drive.google.com/file/d/11nGUWV-bRbifUewBzEpPVim_n30Zr4ks/view?usp=drive_link and needs to be put in BYTEBATTLE/ai_planner/planner/static/planner/audio and must be renamed as calm.mp3
