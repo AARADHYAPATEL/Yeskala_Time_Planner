@@ -7,3 +7,5 @@ You can also choose a theme from the themes given and your chosen theme is store
 The AI engine used here is GPT-4o as it is fast but also provides quality responses without ignoring aspects of your request. This app is coded on an HTML/CSS/JS frontend with an Python: Django backend.
 
 The link to the sound is here: https://drive.google.com/file/d/11nGUWV-bRbifUewBzEpPVim_n30Zr4ks/view?usp=drive_link and needs to be put in BYTEBATTLE/ai_planner/planner/static/planner/audio and must be renamed as calm.mp3
+
+Our presentation link is https://www.canva.com/design/DAG6MAPHJZM/hbNKwNeo4BzAWC5NQ-Gx4g/edit?utm_content=DAG6MAPHJZM&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton 
