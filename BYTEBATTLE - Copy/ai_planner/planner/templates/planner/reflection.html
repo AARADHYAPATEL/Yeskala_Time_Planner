@@ -1,167 +1,179 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="midnight">
+<!DOCTYPE html> <!-- HTML: Declare the document as HTML5 -->
+<html lang="en" data-theme="midnight"> <!-- HTML: Root element, page language is English, with a data-theme attribute for theming -->
 
-<head>
-    <meta charset="UTF-8">
-    <title>End of Day Reflection • AI Time Planner</title>
-    <style>
-        body {
-            margin: 0;
-            min-height: 100vh;
-            background: #020617;
-            color: #e5e7eb;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            display: flex;
-            justify-content: center;
-            padding: 1.5rem;
+<head> <!-- HTML: Head section for metadata, title, and styles -->
+    <meta charset="UTF-8"> <!-- HTML: Use UTF-8 character encoding -->
+    <title>End of Day Reflection • AI Time Planner</title> <!-- HTML: Title shown in browser tab -->
+    <style> /* CSS: Start of embedded stylesheet */
+        body { /* CSS: Style rules for the <body> element */
+            margin: 0; /* CSS: Remove default margin around the page */
+            min-height: 100vh; /* CSS: Make body at least full viewport height */
+            background: #020617; /* CSS: Set dark background color */
+            color: #e5e7eb; /* CSS: Default text color for page content */
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; /* CSS: System font stack for modern UIs */
+            display: flex; /* CSS: Use flexbox layout */
+            justify-content: center; /* CSS: Center main content horizontally */
+            padding: 1.5rem; /* CSS: Add outer padding around the container */
         }
 
-        .container {
-            width: 100%;
-            max-width: 720px;
-            background: rgba(15, 23, 42, 0.96);
-            border-radius: 1.25rem;
-            border: 1px solid rgba(148, 163, 184, 0.35);
-            padding: 1.75rem;
-            box-shadow: 0 22px 40px rgba(0, 0, 0, 0.7);
+        .container { /* CSS: Styles for the main central card */
+            width: 100%; /* CSS: Allow container to fill available width */
+            max-width: 720px; /* CSS: Limit width for readability */
+            background: rgba(15, 23, 42, 0.96); /* CSS: Dark semi-transparent background for the card */
+            border-radius: 1.25rem; /* CSS: Rounded corners for the card */
+            border: 1px solid rgba(148, 163, 184, 0.35); /* CSS: Subtle border for separation */
+            padding: 1.75rem; /* CSS: Inner padding of the card */
+            box-shadow: 0 22px 40px rgba(0, 0, 0, 0.7); /* CSS: Drop shadow for depth */
         }
 
-        h1 {
-            margin: 0 0 0.5rem;
-            font-size: 1.5rem;
+        h1 { /* CSS: Styles for main heading elements */
+            margin: 0 0 0.5rem; /* CSS: No top margin, small bottom spacing */
+            font-size: 1.5rem; /* CSS: Font size for the page title */
         }
 
-        .subtitle {
-            color: #9ca3af;
-            font-size: 0.9rem;
-            margin-bottom: 1.4rem;
+        .subtitle { /* CSS: Styles for subtitle text */
+            color: #9ca3af; /* CSS: Muted gray text color */
+            font-size: 0.9rem; /* CSS: Slightly smaller font size */
+            margin-bottom: 1.4rem; /* CSS: Space below subtitle */
         }
 
         .textarea,
-        .input {
-            width: 100%;
-            background: rgba(15, 23, 42, 0.9);
-            color: #e5e7eb;
-            border-radius: 0.6rem;
-            border: 1px solid rgba(55, 65, 81, 0.9);
-            padding: 0.55rem 0.7rem;
-            font-size: 0.9rem;
-            outline: none;
-            resize: vertical;
+        .input { /* CSS: Shared styles for textarea and input fields */
+            width: 100%; /* CSS: Make fields full width of container */
+            background: rgba(15, 23, 42, 0.9); /* CSS: Dark background inside fields */
+            color: #e5e7eb; /* CSS: Light text color for readability */
+            border-radius: 0.6rem; /* CSS: Rounded corners for form fields */
+            border: 1px solid rgba(55, 65, 81, 0.9); /* CSS: Dark border around fields */
+            padding: 0.55rem 0.7rem; /* CSS: Inner padding for comfortable typing */
+            font-size: 0.9rem; /* CSS: Input text size */
+            outline: none; /* CSS: Remove default focus outline */
+            resize: vertical; /* CSS: Allow vertical resizing (only affects textarea) */
         }
 
-        .textarea {
-            min-height: 140px;
+        .textarea { /* CSS: Additional rules for textarea only */
+            min-height: 140px; /* CSS: Minimum height for reflection text area */
         }
 
         .textarea:focus,
-        .input:focus {
-            border-color: #0ea5e9;
-            box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.5);
+        .input:focus { /* CSS: Focus state for both textarea and inputs */
+            border-color: #0ea5e9; /* CSS: Change border to blue on focus */
+            box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.5); /* CSS: Add subtle blue glow to focused field */
         }
 
-        .hint {
-            font-size: 0.8rem;
-            color: #9ca3af;
-            margin-top: 0.25rem;
+        .hint { /* CSS: Styles for small hint text */
+            font-size: 0.8rem; /* CSS: Small font size */
+            color: #9ca3af; /* CSS: Muted text color */
+            margin-top: 0.25rem; /* CSS: Space above hint text */
         }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 0.75rem;
-            margin-top: 0.9rem;
+        .grid-3 { /* CSS: Grid layout for 3 energy inputs */
+            display: grid; /* CSS: Use CSS Grid layout */
+            grid-template-columns: repeat(3, minmax(0, 1fr)); /* CSS: Three equal-width columns */
+            gap: 0.75rem; /* CSS: Spacing between grid items */
+            margin-top: 0.9rem; /* CSS: Space above the grid */
         }
 
-        label {
-            font-size: 0.8rem;
-            color: #cbd5f5;
-            display: block;
-            margin-bottom: 0.25rem;
+        label { /* CSS: Styling for all <label> elements */
+            font-size: 0.8rem; /* CSS: Smaller label text */
+            color: #cbd5f5; /* CSS: Light bluish label color */
+            display: block; /* CSS: Make label span full width */
+            margin-bottom: 0.25rem; /* CSS: Space between label and its field */
         }
 
-        .btn-primary {
-            background: linear-gradient(to right, #0ea5e9, #6366f1);
-            color: #020617;
-            border: none;
-            padding: 0.6rem 1.35rem;
-            border-radius: 999px;
-            font-weight: 600;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+        .btn-primary { /* CSS: Styles for main submit button */
+            background: linear-gradient(to right, #0ea5e9, #6366f1); /* CSS: Blue-to-purple gradient */
+            color: #020617; /* CSS: Dark text color on bright button */
+            border: none; /* CSS: Remove border for clean look */
+            padding: 0.6rem 1.35rem; /* CSS: Button padding for size and click area */
+            border-radius: 999px; /* CSS: Fully rounded pill-shaped button */
+            font-weight: 600; /* CSS: Semi-bold button label */
+            cursor: pointer; /* CSS: Show pointer cursor on hover */
+            font-size: 0.9rem; /* CSS: Button text size */
+            margin-top: 1rem; /* CSS: Space above button */
+            display: inline-flex; /* CSS: Flex layout for optional icon + text */
+            align-items: center; /* CSS: Vertically center contents */
+            gap: 0.35rem; /* CSS: Horizontal space between icon and text */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8); /* CSS: Strong shadow for depth */
         }
 
-        .btn-link {
-            margin-left: 0.75rem;
-            font-size: 0.85rem;
-            color: #93c5fd;
-            text-decoration: none;
+        .btn-link { /* CSS: Styles for secondary link-style button */
+            margin-left: 0.75rem; /* CSS: Space to the left of the link */
+            font-size: 0.85rem; /* CSS: Slightly smaller text */
+            color: #93c5fd; /* CSS: Light blue text color for secondary action */
+            text-decoration: none; /* CSS: Remove default underline */
         }
 
-        .plan-preview {
-            font-size: 0.8rem;
-            color: #9ca3af;
-            margin-bottom: 0.9rem;
+        .plan-preview { /* CSS: Styles for plan preview/info block */
+            font-size: 0.8rem; /* CSS: Smaller informational text */
+            color: #9ca3af; /* CSS: Muted color */
+            margin-bottom: 0.9rem; /* CSS: Space below preview block */
         }
-    </style>
-</head>
+    </style> <!-- CSS: End of stylesheet -->
+</head> <!-- HTML: End of head section -->
 
-<body>
-    <div class="container">
-        <h1>End of Day Reflection</h1>
-        <p class="subtitle">
+
+<body> <!-- HTML: Start of visible page content -->
+    <div class="container"> <!-- HTML: Main centered card for reflection UI -->
+        <h1>End of Day Reflection</h1> <!-- HTML: Primary page heading -->
+        <p class="subtitle"> <!-- HTML: Subtitle paragraph -->
             This takes under a minute. Tomorrow's AI plan will adapt based on what actually happened today.
+            <!-- HTML: Descriptive text explaining why reflection matters -->
         </p>
 
-        {% if day_log %}
-        <div class="plan-preview">
-            <strong>Date:</strong> {{ today }}<br>
+        {% if day_log %} {# Django template: If there is a day_log object for today #}
+        <div class="plan-preview"> <!-- HTML: Show summary of today's plan -->
+            <strong>Date:</strong> {{ today }}<br> <!-- Django template: Insert today's date variable with HTML line break -->
             <strong>Planned tasks:</strong> based on your AI schedule generated earlier today.
+            <!-- HTML: Static text describing that tasks came from earlier AI schedule -->
         </div>
-        {% else %}
-        <div class="plan-preview">
+        {% else %} {# Django template: If there is no day_log for today #}
+        <div class="plan-preview"> <!-- HTML: Message when no plan exists -->
             No plan found for today. Generate a plan first, then come back to reflect.
+            <!-- HTML: Instruction telling user to create a plan before reflecting -->
         </div>
-        {% endif %}
+        {% endif %} {# Django template: End of if/else block for day_log existence #}
 
-        {% if day_log %}
-        <form method="post">
-            {% csrf_token %}
-            <label>
-                What actually happened today?
+        {% if day_log %} {# Django template: Only show form if day_log is present #}
+        <form method="post"> <!-- HTML: Form that submits reflection data using POST -->
+            {% csrf_token %} {# Django template: CSRF protection token for POST form #}
+            <label> <!-- HTML: Label for the reflection textarea -->
+                What actually happened today? <!-- HTML: Prompt question for the user -->
                 <textarea name="reflection" class="textarea"
                     placeholder="Example: Finished math + physics, skipped Hindi reading, took an unplanned 1-hour nap after lunch, focus was 8/10 at night...">{{ day_log.reflection_text }}</textarea>
+                <!-- HTML + Django: Textarea for reflection; placeholder is example text, inner {{ ... }} pre-fills with saved reflection_text -->
             </label>
             <p class="hint">Be honest. This is only used to make future plans more realistic and less stressful.</p>
+            <!-- HTML: Hint under the textarea explaining purpose and encouraging honesty -->
 
-            <div class="grid-3">
-                <div>
-                    <label>Morning energy (1–10)</label>
+            <div class="grid-3"> <!-- HTML: Grid wrapper for three numeric energy inputs -->
+                <div> <!-- HTML: Column 1 - morning energy -->
+                    <label>Morning energy (1-10)</label> <!-- HTML: Label for morning energy rating -->
                     <input type="number" class="input" name="energy_morning" min="1" max="10"
                         value="{{ day_log.energy_morning|default_if_none:'' }}">
+                    <!-- HTML + Django: Number field for morning; Django fills with value or empty string if None -->
                 </div>
-                <div>
-                    <label>Afternoon energy (1–10)</label>
+                <div> <!-- HTML: Column 2 - afternoon energy -->
+                    <label>Afternoon energy (1-10)</label> <!-- HTML: Label for afternoon energy rating -->
                     <input type="number" class="input" name="energy_afternoon" min="1" max="10"
                         value="{{ day_log.energy_afternoon|default_if_none:'' }}">
+                    <!-- HTML + Django: Number field for afternoon; uses filter to avoid 'None' in HTML -->
                 </div>
-                <div>
-                    <label>Night energy (1–10)</label>
+                <div> <!-- HTML: Column 3 - night energy -->
+                    <label>Night energy (1-10)</label> <!-- HTML: Label for evening/night energy rating -->
                     <input type="number" class="input" name="energy_evening" min="1" max="10"
                         value="{{ day_log.energy_evening|default_if_none:'' }}">
+                    <!-- HTML + Django: Number field for evening; pre-populated from day_log or left blank -->
                 </div>
             </div>
 
             <button type="submit" class="btn-primary">Save reflection</button>
+            <!-- HTML: Primary action button to submit reflection form -->
             <a href="{% url 'planner' %}" class="btn-link">Back to planner</a>
+            <!-- HTML + Django: Link styled as button; {% url 'planner' %} inserts the URL of the 'planner' view -->
         </form>
-        {% endif %}
-    </div>
-</body>
+        {% endif %} {# Django template: End of conditional form block #}
+    </div> <!-- HTML: End of main container -->
+</body> <!-- HTML: End of body content -->
 
-</html>
+
+</html> <!-- HTML: End of document root -->

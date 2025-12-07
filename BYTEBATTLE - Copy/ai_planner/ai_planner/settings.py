@@ -10,81 +10,81 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
-from pathlib import Path
-import os
+from pathlib import Path # noqa: F401
+import os # noqa: F401 
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"  # DEV ONLY: allow http for OAuth
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent 
 
-GOOGLE_CLIENT_SECRET_FILE = BASE_DIR / "google_client_secret.json"
-GOOGLE_OAUTH_REDIRECT_URI = "http://127.0.0.1:8000/google/oauth2/callback/"
-GOOGLE_SCOPES = ["https://www.googleapis.com/auth/calendar.events"]
+GOOGLE_CLIENT_SECRET_FILE = BASE_DIR / "google_client_secret.json" # Path to Google OAuth client secret file
+GOOGLE_OAUTH_REDIRECT_URI = "http://127.0.0.1:8000/google/oauth2/callback/" # OAuth redirect URI for local development
+GOOGLE_SCOPES = ["https://www.googleapis.com/auth/calendar.events"] # Scopes for Google Calendar API
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-33qbc)f(l=bn^x&x#g3*k)x(c)3%ss$-aie8%)l@()$@^&6ecn"
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+SECRET_KEY = "django-insecure-33qbc)f(l=bn^x&x#g3*k)x(c)3%ss$-aie8%)l@()$@^&6ecn" # Secret key for Django application
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY") # OpenAI API key from environment variable
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True # Debug mode for development
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [] # Hosts allowed to access the application
 
 
 # Application definition
 
-INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "planner",
+INSTALLED_APPS = [ # Installed Django applications
+    "django.contrib.admin", # Admin interface
+    "django.contrib.auth", # Authentication framework
+    "django.contrib.contenttypes", # Content types framework
+    "django.contrib.sessions", # Session framework
+    "django.contrib.messages", # Messaging framework
+    "django.contrib.staticfiles", # Static files handling
+    "planner", # Custom planner app
 ]
 
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+MIDDLEWARE = [ # Middleware configuration
+    "django.middleware.security.SecurityMiddleware", # Security middleware
+    "django.contrib.sessions.middleware.SessionMiddleware", # Session middleware
+    "django.middleware.common.CommonMiddleware", # Common middleware
+    "django.middleware.csrf.CsrfViewMiddleware", # CSRF protection middleware
+    "django.contrib.auth.middleware.AuthenticationMiddleware", # Authentication middleware
+    "django.contrib.messages.middleware.MessageMiddleware", # Messaging middleware
+    "django.middleware.clickjacking.XFrameOptionsMiddleware", # Clickjacking protection middleware
 ]
 
-ROOT_URLCONF = "ai_planner.urls"
+ROOT_URLCONF = "ai_planner.urls" # Root URL configuration
 
-TEMPLATES = [
+TEMPLATES = [ # Template engine configuration
     {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
+        "BACKEND": "django.template.backends.django.DjangoTemplates", # Django template backend
+        "DIRS": [], # Directories to search for templates
+        "APP_DIRS": True, # Enable app directories for templates
+        "OPTIONS": { # Additional options
+            "context_processors": [ # Context processors
+                "django.template.context_processors.request", # Request context processor
+                "django.contrib.auth.context_processors.auth", # Authentication context processor
+                "django.contrib.messages.context_processors.messages", # Messaging context processor
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = "ai_planner.wsgi.application"
+WSGI_APPLICATION = "ai_planner.wsgi.application" # WSGI application path
 
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+DATABASES = { # Database configuration
+    "default": { # Default database settings
+        "ENGINE": "django.db.backends.sqlite3", # SQLite database engine
+        "NAME": BASE_DIR / "db.sqlite3", # Database file path
     }
 }
 
@@ -92,18 +92,18 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
+AUTH_PASSWORD_VALIDATORS = [ # Password validation settings
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator", # Validate similarity to user attributes
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", # Validate minimum length
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", # Validate against common passwords
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", # Validate against numeric passwords
     },
 ]
 
@@ -111,21 +111,21 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "en-us" # Language code for the application
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "UTC" # Time zone for the application
 
-USE_I18N = True
+USE_I18N = True # Enable internationalization
 
-USE_TZ = True
+USE_TZ = True # Enable timezone support
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "static/" # URL prefix for static files
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField" # Default auto field type for models

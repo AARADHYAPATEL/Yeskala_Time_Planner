@@ -1,469 +1,461 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="midnight">
+<!DOCTYPE html> <!-- Defines the document type as HTML5 -->
+<html lang="en" data-theme="midnight"> <!-- Root element with language set to English and default theme 'midnight' -->
 
-<head>
-    <meta charset="UTF-8">
-    <title>Your Preferences • Yeskala Time Planner</title>
+<head> <!-- Document head section -->
 
-    <style>
-        /* ============================================================
-           THEME TOKEN DEFINITIONS
-           These CSS variables define colors for each theme.
-           The main styles reference these variables so themes switch instantly.
-        ============================================================ */
+    <meta charset="UTF-8"> <!-- Sets character encoding to UTF-8 -->
+    <title>Your Preferences • Yeskala Time Planner</title> <!-- Sets the tab title of the webpage -->
 
-        :root {
-            /* Default baseline theme values (Midnight-like) */
-            --bg-body: radial-gradient(circle at top left, #020617 0%, #020617 45%, #000 100%);
-            --bg-surface: rgba(15, 23, 42, 0.96);
-            --bg-card: #020617;
-            --bg-card-soft: #020617;
-            --border-subtle: rgba(148, 163, 184, 0.35);
-            --accent: #0ea5e9;
-            --accent-2: #6366f1;
-            --text-main: #e5e7eb;
-            --text-muted: #9ca3af;
-            --btn-text: #020617;
+    <style> /* Internal CSS styling block starts */
+
+        /* Theme token definitions for dynamic theming */
+
+        :root { /* Root-level CSS variables - default baseline theme */
+            --bg-body: radial-gradient(circle at top left, #020617 0%, #020617 45%, #000 100%); /* Background gradient for body */
+            --bg-surface: rgba(15, 23, 42, 0.96); /* Surface background color (semi-transparent) */
+            --bg-card: #020617; /* Background color of cards */
+            --bg-card-soft: #020617; /* Softer card background, same as card here */
+            --border-subtle: rgba(148, 163, 184, 0.35); /* Subtle border color */
+            --accent: #0ea5e9; /* Primary accent color */
+            --accent-2: #6366f1; /* Secondary accent color */
+            --text-main: #e5e7eb; /* Primary text color */
+            --text-muted: #9ca3af; /* Muted text color */
+            --btn-text: #020617; /* Button text color */
         }
 
-        /* Midnight Focus Theme */
-        html[data-theme="midnight"] {
-            --bg-body: radial-gradient(circle at top left, #020617 0%, #020617 40%, #000 100%);
-            --bg-surface: rgba(15, 23, 42, 0.96);
-            --bg-card: #020617;
-            --bg-card-soft: #020617;
-            --border-subtle: rgba(148, 163, 184, 0.35);
-            --accent: #0ea5e9;
-            --accent-2: #6366f1;
-            --text-main: #e5e7eb;
-            --text-muted: #9ca3af;
-            --btn-text: #020617;
+        /* Midnight focus theme overrides */
+        html[data-theme="midnight"] { /* Applies when data-theme attribute is 'midnight' */
+            --bg-body: radial-gradient(circle at top left, #020617 0%, #020617 40%, #000 100%); /* Dark radial background */
+            --bg-surface: rgba(15, 23, 42, 0.96); /* Dark surface background */
+            --bg-card: #020617; /* Dark card background */
+            --bg-card-soft: #020617; /* Soft card background */
+            --border-subtle: rgba(148, 163, 184, 0.35); /* Subtle border color */
+            --accent: #0ea5e9; /* Blue accent */
+            --accent-2: #6366f1; /* Purple accent */
+            --text-main: #e5e7eb; /* Light text */
+            --text-muted: #9ca3af; /* Muted text */
+            --btn-text: #020617; /* Button text color */
         }
 
-        /* Neon Grid Theme */
-        html[data-theme="neon"] {
-            /* Complex neon grid background with two overlaying grid patterns */
+        /* Neon grid theme overrides */
+        html[data-theme="neon"] { /* Styles for neon theme */
             --bg-body:
-                radial-gradient(circle at top left, #020617 0%, #020617 40%, #020617 70%, #000 100%),
-                repeating-linear-gradient(to right,
-                    rgba(34, 211, 238, 0.06) 0,
+                radial-gradient(circle at top left, #020617 0%, #020617 40%, #020617 70%, #000 100%), /* Radial background */
+                repeating-linear-gradient(to right, 
+                    rgba(34, 211, 238, 0.06) 0, 
                     rgba(34, 211, 238, 0.06) 1px,
-                    transparent 1px,
-                    transparent 24px),
+                    transparent 1px, 
+                    transparent 24px), /* Horizontal neon grid lines */
                 repeating-linear-gradient(to bottom,
                     rgba(232, 121, 249, 0.06) 0,
                     rgba(232, 121, 249, 0.06) 1px,
                     transparent 1px,
-                    transparent 24px);
-            --bg-surface: rgba(2, 6, 23, 0.96);
-            --bg-card: rgba(3, 7, 18, 0.96);
+                    transparent 24px); /* Vertical neon grid lines */
+            --bg-surface: rgba(2, 6, 23, 0.96); /* Dark surface background */
+            --bg-card: rgba(3, 7, 18, 0.96); /* Card background */
             --bg-card-soft: #020617;
-            --border-subtle: rgba(244, 114, 182, 0.55);
-            --accent: #22d3ee;
-            --accent-2: #e879f9;
-            --text-main: #f9fafb;
-            --text-muted: #a5b4fc;
-            --btn-text: #020617;
+            --border-subtle: rgba(244, 114, 182, 0.55); /* Pinkish border */
+            --accent: #22d3ee; /* Cyan accent */
+            --accent-2: #e879f9; /* Pink accent */
+            --text-main: #f9fafb; /* White text */
+            --text-muted: #a5b4fc; /* Muted purple */
+            --btn-text: #020617; /* Button text color */
         }
 
-        /* Aurora Mist Theme */
-        html[data-theme="aurora"] {
-            --bg-body: radial-gradient(circle at top left, #020617 0%, #0f172a 30%, #1e293b 65%, #020617 100%);
-            --bg-surface: rgba(15, 23, 42, 0.97);
-            --bg-card: #020617;
-            --bg-card-soft: #020617;
-            --border-subtle: rgba(129, 140, 248, 0.5);
-            --accent: #22c55e;
-            --accent-2: #38bdf8;
-            --text-main: #e5e7eb;
-            --text-muted: #9ca3af;
-            --btn-text: #020617;
+        /* Aurora Mist theme overrides */
+        html[data-theme="aurora"] { /* Aurora themed colors */
+            --bg-body: radial-gradient(circle at top left, #020617 0%, #0f172a 30%, #1e293b 65%, #020617 100%); /* Aurora gradient background */
+            --bg-surface: rgba(15, 23, 42, 0.97); /* Dark surface background */
+            --bg-card: #020617; /* Dark card background */
+            --bg-card-soft: #020617; /* Soft card background */
+            --border-subtle: rgba(129, 140, 248, 0.5); /* Soft purple border */
+            --accent: #22c55e; /* Green accent */
+            --accent-2: #38bdf8; /* Blue accent */
+            --text-main: #e5e7eb; /* Light text */
+            --text-muted: #9ca3af; /* Muted text */
+            --btn-text: #020617; /* Button text color */
         }
 
-        /* Solar Paper (Light Mode Theme) */
-        html[data-theme="solar"] {
-            --bg-body: radial-gradient(circle at top left, #fefce8 0%, #f4f4f5 40%, #e5e7eb 100%);
-            --bg-surface: #ffffff;
-            --bg-card: #f9fafb;
-            --bg-card-soft: #ffffff;
-            --border-subtle: rgba(148, 163, 184, 0.7);
-            --accent: #f97316;
-            --accent-2: #22c55e;
-            --text-main: #0f172a;
-            --text-muted: #6b7280;
-            --btn-text: #020617;
+        /* Solar Paper (Light mode) theme overrides */
+        html[data-theme="solar"] { /* Light theme variables */
+            --bg-body: radial-gradient(circle at top left, #fefce8 0%, #f4f4f5 40%, #e5e7eb 100%); /* Light radial background */
+            --bg-surface: #ffffff; /* White surface background */
+            --bg-card: #f9fafb; /* Light card background */
+            --bg-card-soft: #ffffff; /* Soft card background */
+            --border-subtle: rgba(148, 163, 184, 0.7); /* Light border color */
+            --accent: #f97316; /* Orange accent */
+            --accent-2: #22c55e; /* Green accent */
+            --text-main: #0f172a; /* Dark text */
+            --text-muted: #6b7280; /* Muted text */
+            --btn-text: #020617; /* Button text color */
         }
 
-        /* Forest Study Theme */
-        html[data-theme="forest"] {
-            --bg-body: radial-gradient(circle at top left, #022c22 0%, #064e3b 35%, #020617 90%);
-            --bg-surface: rgba(6, 78, 59, 0.96);
-            --bg-card: #020617;
-            --bg-card-soft: #020617;
-            --border-subtle: rgba(52, 211, 153, 0.55);
-            --accent: #22c55e;
-            --accent-2: #16a34a;
-            --text-main: #ecfdf5;
-            --text-muted: #6ee7b7;
-            --btn-text: #022c22;
+        /* Forest Study theme overrides */
+        html[data-theme="forest"] { /* Forest theme colors */
+            --bg-body: radial-gradient(circle at top left, #022c22 0%, #064e3b 35%, #020617 90%); /* Greenish radial background */
+            --bg-surface: rgba(6, 78, 59, 0.96); /* Dark green surface background */
+            --bg-card: #020617; /* Dark card background */
+            --bg-card-soft: #020617; /* Soft card background */
+            --border-subtle: rgba(52, 211, 153, 0.55); /* Soft green border */
+            --accent: #22c55e; /* Green accent */
+            --accent-2: #16a34a; /* Dark green accent */
+            --text-main: #ecfdf5; /* Light text */
+            --text-muted: #6ee7b7; /* Muted green */
+            --btn-text: #022c22; /* Button text color */
         }
 
-        /* ============================================================
-           SHARED LAYOUT STYLES
-        ============================================================ */
+        /* Shared layout styles */
 
-        body {
-            margin: 0;
-            padding: 1.5rem;
-            min-height: 100vh;
-            background: var(--bg-body);
-            color: var(--text-main);
-            font-family: system-ui, sans-serif;
-            display: flex;
-            justify-content: center;
+        body { /* Styles for entire body */
+            margin: 0; /* Remove default margin */
+            padding: 1.5rem; /* Add padding */
+            min-height: 100vh; /* Full viewport height */
+            background: var(--bg-body); /* Use theme background */
+            color: var(--text-main); /* Text color */
+            font-family: system-ui, sans-serif; /* System font stack */
+            display: flex; /* Flexbox container */
+            justify-content: center; /* Center horizontally */
         }
 
-        /* Main card container */
-        .container {
-            width: 100%;
-            max-width: 780px;
-            background: var(--bg-surface);
-            border-radius: 1.25rem;
-            padding: 1.75rem 1.75rem 2rem;
-            border: 1px solid var(--border-subtle);
+        /* Main container card */
+        .container { /* Card wrapper */
+            width: 100%; /* Full width */
+            max-width: 780px; /* Max width */
+            background: var(--bg-surface); /* Surface bg color */
+            border-radius: 1.25rem; /* Rounded corners */
+            padding: 1.75rem 1.75rem 2rem; /* Padding inside card */
+            border: 1px solid var(--border-subtle); /* Border */
             box-shadow:
-                0 22px 40px rgba(0, 0, 0, 0.7),
-                0 0 0 1px rgba(15, 23, 42, 0.7);
+                0 22px 40px rgba(0, 0, 0, 0.7), /* Dark shadow */
+                0 0 0 1px rgba(15, 23, 42, 0.7); /* Outline */
         }
 
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 1rem;
-            margin-bottom: 1.2rem;
+        .top-bar { /* Top section with title and controls */
+            display: flex; /* Flex container */
+            justify-content: space-between; /* Space between children */
+            align-items: flex-start; /* Align top */
+            gap: 1rem; /* Spacing between */
+            margin-bottom: 1.2rem; /* Bottom margin */
         }
 
-        /* Headings & text */
-        h1 {
-            margin: 0 0 0.35rem;
-            font-size: 1.6rem;
+        h1 { /* Main heading */
+            margin: 0 0 0.35rem; /* Bottom margin */
+            font-size: 1.6rem; /* Size */
         }
 
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin: 0;
+        .subtitle { /* Subtitle text */
+            color: var(--text-muted); /* Muted text color */
+            font-size: 0.9rem; /* Slightly smaller */
+            margin: 0; /* No margin */
         }
 
-        /* Theme dropdown & back button wrapper */
-        .control-bar {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
+        .control-bar { /* Wrapper for theme dropdown + back button */
+            display: flex; /* Flex inline */
+            align-items: center; /* Vertically center */
+            gap: 0.75rem; /* Spacing */
         }
 
-        /* Theme selection label + dropdown */
-        .theme-control {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
+        .theme-control { /* Theme selector wrap */
+            display: flex; /* Flex column */
+            flex-direction: column; /* Vertical stack */
+            align-items: flex-start; /* Align left */
         }
 
-        .control-label {
-            font-size: 0.7rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 0.25rem;
+        .control-label { /* Label above dropdown */
+            font-size: 0.7rem; /* Small font */
+            letter-spacing: 0.08em; /* Spacing between letters */
+            text-transform: uppercase; /* Uppercase text */
+            color: var(--text-muted); /* Muted color */
+            margin-bottom: 0.25rem; /* Margin below */
         }
 
-        /* The dropdown styling */
-        .theme-select {
-            background: rgba(255, 255, 255, 0.07);
-            color: var(--text-main);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(6px);
-            padding: 0.4rem 0.9rem;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            cursor: pointer;
+        .theme-select { /* Dropdown styling */
+            background: rgba(255, 255, 255, 0.07); /* Transparent background */
+            color: var(--text-main); /* Text color */
+            border: 1px solid rgba(255, 255, 255, 0.18); /* Border */
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px); /* Blur effect */
+            padding: 0.4rem 0.9rem; /* Padding */
+            border-radius: 999px; /* Pill shape */
+            font-size: 0.85rem; /* Smaller font */
+            cursor: pointer; /* Pointer cursor */
         }
 
-        /* Solar theme dropdown override */
-        html[data-theme="solar"] .theme-select {
-            background: #f9fafb;
-            border-color: rgba(148, 163, 184, 0.7);
+        /* Solar light mode overrides for dropdown */
+        html[data-theme="solar"] .theme-select { 
+            background: #f9fafb; /* Light bg */
+            border-color: rgba(148, 163, 184, 0.7); /* Border color */
         }
 
-        /* Back button */
-        .back-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            padding: 0.4rem 0.9rem;
-            border-radius: 999px;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
+        .back-btn { /* Back button style */
+            display: inline-flex; /* Flexible inline */
+            align-items: center; /* Center vertically */
+            gap: 0.3rem; /* Space between icon and text */
+            padding: 0.4rem 0.9rem; /* Padding */
+            border-radius: 999px; /* Rounded pill shape */
+            border: 1px solid var(--accent); /* Accent border */
+            color: var(--accent); /* Accent text */
+            text-decoration: none; /* Remove underline */
+            font-size: 0.8rem; /* Smaller font */
+            font-weight: 600; /* Semi-bold */
         }
 
-        .back-btn:hover {
-            background: rgba(34, 197, 94, 0.1);
+        .back-btn:hover { /* Hover effect for back button */
+            background: rgba(34, 197, 94, 0.1); /* Light green background on hover */
         }
 
-        /* ============================================================
-           FORM FIELDS
-        ============================================================ */
-
-        label {
-            display: block;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-muted);
+        /* Form labels */
+        label { 
+            display: block; /* Block level */
+            margin-top: 1rem; /* Top margin */
+            font-size: 0.9rem; /* Text size */
+            font-weight: 600; /* Semi bold */
+            color: var(--text-muted); /* Muted color */
         }
 
         input,
-        select {
-            width: 100%;
-            margin-top: 0.3rem;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            border: 1px solid var(--border-subtle);
-            background: var(--bg-card);
-            color: var(--text-main);
+        select { /* Input & select element styles */
+            width: 100%; /* Full width */
+            margin-top: 0.3rem; /* Small top margin */
+            padding: 0.5rem; /* Padding */
+            border-radius: 0.5rem; /* Rounded corners */
+            border: 1px solid var(--border-subtle); /* Border color */
+            background: var(--bg-card); /* Background color */
+            color: var(--text-main); /* Text color */
         }
 
-        /* Light mode overrides */
-        html[data-theme="solar"] input,
-        html[data-theme="solar"] select {
-            background: #f9fafb;
+        /* Light mode field overrides */
+        html[data-theme="solar"] input, 
+        html[data-theme="solar"] select { 
+            background: #f9fafb; /* Light background */
         }
 
-        /* Save button */
+        /* Save button style */
         .btn-primary {
-            margin-top: 1.5rem;
-            padding: 0.7rem 1.4rem;
-            background: linear-gradient(to right, var(--accent), var(--accent-2));
-            border: none;
-            border-radius: 999px;
-            color: var(--btn-text);
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
+            margin-top: 1.5rem; /* Top margin */
+            padding: 0.7rem 1.4rem; /* Padding */
+            background: linear-gradient(to right, var(--accent), var(--accent-2)); /* Gradient background */
+            border: none; /* No border */
+            border-radius: 999px; /* Pill shape */
+            color: var(--btn-text); /* Button text color */
+            font-weight: 600; /* Semi-bold */
+            font-size: 0.9rem; /* Font size */
+            cursor: pointer; /* Pointer cursor */
         }
 
-        /* ============================================================
-           TOGGLE SWITCH (sport/activities)
-        ============================================================ */
-
+        /* Toggle row layout */
         .toggle-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 1.2rem;
+            display: flex; /* Flex container */
+            align-items: center; /* Center vertically */
+            justify-content: space-between; /* Space between label and switch */
+            margin-top: 1.2rem; /* Top margin */
         }
 
+        /* Toggle label */
         .toggle-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-main);
+            font-size: 0.9rem; /* Size */
+            font-weight: 600; /* Semi-bold */
+            color: var(--text-main); /* Text color */
         }
 
-        /* Switch wrapper */
+        /* Toggle switch wrapper */
         .switch {
-            position: relative;
-            display: inline-block;
-            width: 46px;
-            height: 24px;
+            position: relative; /* Relative position for slider */
+            display: inline-block; /* Inline block */
+            width: 46px; /* Width */
+            height: 24px; /* Height */
         }
 
         /* Hide default checkbox */
         .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
+            opacity: 0; /* Invisible */
+            width: 0; /* No width */
+            height: 0; /* No height */
         }
 
-        /* Background slider bar */
+        /* Background slider */
         .slider {
-            position: absolute;
-            cursor: pointer;
-            inset: 0;
-            background: rgba(148, 163, 184, 0.4);
-            border-radius: 24px;
-            transition: 0.25s;
+            position: absolute; /* Positioned inside switch */
+            cursor: pointer; /* Pointer cursor */
+            inset: 0; /* Fill entire switch */
+            background: rgba(148, 163, 184, 0.4); /* Gray background */
+            border-radius: 24px; /* Rounded ends */
+            transition: 0.25s; /* Smooth transition */
         }
 
-        /* Moving circle */
+        /* Moving circle inside slider */
         .slider:before {
-            content: "";
-            position: absolute;
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background: var(--text-main);
-            border-radius: 50%;
-            transition: 0.25s ease;
+            content: ""; /* Empty content */
+            position: absolute; /* Absolute positioning */
+            height: 18px; /* Circle height */
+            width: 18px; /* Circle width */
+            left: 3px; /* Left offset */
+            bottom: 3px; /* Bottom offset */
+            background: var(--text-main); /* Circle color */
+            border-radius: 50%; /* Circle shape */
+            transition: 0.25s ease; /* Smooth transition */
         }
 
-        /* Checked state */
+        /* Checked state background */
         .switch input:checked + .slider {
-            background: linear-gradient(to right, var(--accent), var(--accent-2));
+            background: linear-gradient(to right, var(--accent), var(--accent-2)); /* Gradient background */
         }
 
+        /* Circle slides right when checked */
         .switch input:checked + .slider:before {
-            transform: translateX(22px);
+            transform: translateX(22px); /* Move circle to right */
         }
 
-        /* Improve option visibility in dark themes */
+        /* Dropdown option visibility in dark themes */
         .theme-select option {
-            background-color: #020617;
-            color: #e5e7eb !important;
-            opacity: 1;
+            background-color: #020617; /* Dark background */
+            color: #e5e7eb !important; /* Light text */
+            opacity: 1; /* Full opacity */
         }
 
-        /* Better visibility in Solar theme */
+        /* Better dropdown option colors in Solar light theme */
         html[data-theme="solar"] .theme-select option {
-            background-color: #ffffff;
-            color: #0f172a !important;
+            background-color: #ffffff; /* White background */
+            color: #0f172a !important; /* Dark text */
         }
 
-        /* Ensure the dropdown uses correct OS color scheme */
+        /* Dropdown respects OS color scheme */
         .theme-select {
-            color-scheme: dark;
+            color-scheme: dark; /* Use dark color scheme */
         }
         html[data-theme="solar"] .theme-select {
-            color-scheme: light;
+            color-scheme: light; /* Light color scheme for solar theme */
         }
-    </style>
+    </style> <!-- End of CSS -->
+
 </head>
 
-<body>
-    <div class="container">
+<body> <!-- Start of body content -->
 
-        <!-- ========== TOP BAR: Title + Theme Selector + Back Button ========== -->
+    <div class="container"> <!-- Main centered container/ card -->
+
+        <!-- TOP BAR: Title + theme selector + back button -->
         <div class="top-bar">
-            <div>
-                <h1>Your Preferences</h1>
-                <p class="subtitle">Save your typical day settings so Yeskala can plan faster with less typing.</p>
-            </div>
 
-            <!-- Theme dropdown + back link -->
-            <div class="control-bar">
-                <div class="theme-control">
-                    <span class="control-label">Theme</span>
-                    <select id="theme-select" class="theme-select">
-                        <option value="midnight">Midnight Focus</option>
-                        <option value="neon">Neon Grid</option>
-                        <option value="aurora">Aurora Mist</option>
-                        <option value="solar">Solar Paper</option>
-                        <option value="forest">Forest Study</option>
-                    </select>
-                </div>
+            <div> <!-- Title and subtitle column -->
+                <h1>Your Preferences</h1> <!-- Main heading -->
+                <p class="subtitle">Save your typical day settings so Yeskala can plan faster with less typing.</p> <!-- Subtitle text -->
+            </div> <!-- End title column -->
 
-                <!-- Back to planner -->
-                <a href="{% url 'planner' %}" class="back-btn">← Planner</a>
-            </div>
-        </div>
+            <!-- Theme dropdown and back link -->
+            <div class="control-bar"> <!-- Control bar wrapper -->
 
-        <!-- ========== USER PREFS FORM ========== -->
-        <form method="post">
-            {% csrf_token %}
+                <div class="theme-control"> <!-- Theme selector wrap -->
+                    <span class="control-label">Theme</span> <!-- Label for dropdown -->
+                    <select id="theme-select" class="theme-select"> <!-- Dropdown for theme selection -->
+                        <option value="midnight">Midnight Focus</option> <!-- Theme option -->
+                        <option value="neon">Neon Grid</option> <!-- Theme option -->
+                        <option value="aurora">Aurora Mist</option> <!-- Theme option -->
+                        <option value="solar">Solar Paper</option> <!-- Theme option -->
+                        <option value="forest">Forest Study</option> <!-- Theme option -->
+                    </select> <!-- End of theme dropdown -->
+                </div> <!-- End theme selector -->
 
-            <!-- Time fields -->
+                <!-- Back button link to planner page -->
+                <a href="{% url 'planner' %}" class="back-btn">← Planner</a> <!-- Django URL template tag -->
+            </div> <!-- End control bar -->
+        </div> <!-- End top bar -->
+
+        <!-- User preferences form -->
+        <form method="post"> <!-- Form uses POST method -->
+            {% csrf_token %} <!-- Django CSRF token for security -->
+
+            <!-- Wake time input -->
             <label>Preferred Wake Time
-                <input type="time" name="wake_time" value="{{ prefs.preferred_wake_time|default:'' }}">
+                <input type="time" name="wake_time" value="{{ prefs.preferred_wake_time|default:'' }}"> <!-- Wake time -->
             </label>
 
+            <!-- Sleep time input -->
             <label>Preferred Sleep Time
-                <input type="time" name="sleep_time" value="{{ prefs.preferred_sleep_time|default:'' }}">
-            </label>
+                <input type="time" name="sleep_time" value="{{ prefs.preferred_sleep_time|default:'' }}"> <!-- Sleep time -->
+            </label> 
 
-            <!-- Numeric fields -->
+            <!-- Max study hours numeric input -->
             <label>Maximum Study Hours Per Day
-                <input type="number" name="max_study_hours" min="1" max="12"
-                    value="{{ prefs.max_study_hours|default:'' }}">
-            </label>
+                <input type="number" name="max_study_hours" min="1" max="12" 
+                    value="{{ prefs.max_study_hours|default:'' }}"> <!-- Max study hours -->
+            </label> 
 
-            <label>Break Frequency (minutes)
-                <input type="number" name="break_frequency" min="5" max="120"
-                    value="{{ prefs.break_frequency_minutes|default:'' }}">
-            </label>
+            <!-- Break frequency input -->
+            <label>Break Frequency (minutes) 
+                <input type="number" name="break_frequency" min="5" max="120" 
+                    value="{{ prefs.break_frequency_minutes|default:'' }}"> <!-- Break frequency in minutes -->
+            </label> 
 
-            <!-- Dropdowns -->
-            <label>Preferred Focus Period
-                <select name="focus_period">
-                    <option value="">No preference</option>
-                    <option value="morning" {% if prefs.preferred_focus_period == "morning" %}selected{% endif %}>Morning</option>
-                    <option value="afternoon" {% if prefs.preferred_focus_period == "afternoon" %}selected{% endif %}>Afternoon</option>
-                    <option value="evening" {% if prefs.preferred_focus_period == "evening" %}selected{% endif %}>Evening</option>
-                </select>
-            </label>
+            <!-- Preferred focus period dropdown -->
+            <label>Preferred Focus Period <!-- Label for focus period -->
+                <select name="focus_period"> <!-- Focus period options -->
+                    <option value="">No preference</option> <!-- Default option -->
+                    <option value="morning" {% if prefs.preferred_focus_period == "morning" %}selected{% endif %}>Morning</option> <!-- Morning option -->
+                    <option value="afternoon" {% if prefs.preferred_focus_period == "afternoon" %}selected{% endif %}>Afternoon</option> <!-- Afternoon option -->
+                    <option value="evening" {% if prefs.preferred_focus_period == "evening" %}selected{% endif %}>Evening</option> <!-- Evening option -->
+                </select> <!-- End focus period options -->
+            </label> <!-- End preferred focus period -->
 
-            <label>Study Style
-                <select name="study_style">
-                    <option value="">No preference</option>
-                    <option value="long_blocks" {% if prefs.study_style == "long_blocks" %}selected{% endif %}>Long Focus Blocks</option>
-                    <option value="pomodoro" {% if prefs.study_style == "pomodoro" %}selected{% endif %}>Pomodoro</option>
-                    <option value="mixed" {% if prefs.study_style == "mixed" %}selected{% endif %}>Mixed</option>
-                </select>
-            </label>
+            <!-- Study style dropdown -->
+            <label>Study Style <!-- Label for study style -->
+                <select name="study_style"> <!-- Study style options -->
+                    <option value="">No preference</option> <!-- Default option -->
+                    <option value="long_blocks" {% if prefs.study_style == "long_blocks" %}selected{% endif %}>Long Focus Blocks</option> <!-- Long focus blocks option -->
+                    <option value="pomodoro" {% if prefs.study_style == "pomodoro" %}selected{% endif %}>Pomodoro</option> <!-- Pomodoro study style option -->
+                    <option value="mixed" {% if prefs.study_style == "mixed" %}selected{% endif %}>Mixed</option> <!-- Mixed study style option -->
+                </select> <!-- End study style options -->
+            </label> <!-- End study style -->
 
-            <label>Stress Sensitivity
-                <select name="stress_sensitivity">
-                    <option value="">Not sure</option>
-                    <option value="low" {% if prefs.stress_sensitivity == "low" %}selected{% endif %}>Low</option>
-                    <option value="medium" {% if prefs.stress_sensitivity == "medium" %}selected{% endif %}>Medium</option>
-                    <option value="high" {% if prefs.stress_sensitivity == "high" %}selected{% endif %}>High</option>
-                </select>
-            </label>
+            <!-- Stress sensitivity dropdown -->
+            <label>Stress Sensitivity <!-- Label for stress sensitivity -->
+                <select name="stress_sensitivity"> <!-- Stress sensitivity options --> 
+                    <option value="">Not sure</option> <!-- Default option -->
+                    <option value="low" {% if prefs.stress_sensitivity == "low" %}selected{% endif %}>Low</option> <!-- Low stress sensitivity option -->
+                    <option value="medium" {% if prefs.stress_sensitivity == "medium" %}selected{% endif %}>Medium</option> <!-- Medium stress sensitivity option -->
+                    <option value="high" {% if prefs.stress_sensitivity == "high" %}selected{% endif %}>High</option> <!-- High stress sensitivity option -->
+                </select> <!-- End stress sensitivity options -->
+            </label> <!-- End stress sensitivity -->
 
-            <!-- Toggle switch -->
-            <div class="toggle-row">
-                <span class="toggle-label">I regularly do sports/practice</span>
-                <label class="switch">
-                    <input type="checkbox" name="plays_sport" {% if prefs.plays_sport %}checked{% endif %}>
-                    <span class="slider"></span>
-                </label>
-            </div>
+            <!-- Toggle for sports activity -->
+            <div class="toggle-row"> <!-- Toggle row for sports -->
+                <span class="toggle-label">I regularly do sports/practice</span> <!-- Toggle label -->
+                <label class="switch"> <!-- Switch wrapper -->
+                    <input type="checkbox" name="plays_sport" {% if prefs.plays_sport %}checked{% endif %}> <!-- Checkbox input -->
+                    <span class="slider"></span> <!-- Slider element -->
+                </label> <!-- End switch -->
+            </div> <!-- End toggle row -->
 
-            <!-- Submit -->
-            <button type="submit" class="btn-primary">Save Preferences</button>
-        </form>
-    </div>
+            <!-- Submit button -->
+            <button type="submit" class="btn-primary">Save Preferences</button> <!-- Submit button -->
+        </form> <!-- End of form -->
+    </div> <!-- End container -->
 
-    <!-- ============================================================
-         Theme Persistence Script
-         Saves selected theme to localStorage and loads it on refresh.
-    ============================================================ -->
-    <script>
-        (function () {
-            const root = document.documentElement;
-            const select = document.getElementById('theme-select');
-            const STORAGE_KEY = 'ai-planner-theme';
+    <!-- Theme persistence script -->
+    <script> // Start of script block
+        (function () { // IIFE to avoid polluting global scope
+            const root = document.documentElement; // <html> element
+            const select = document.getElementById('theme-select'); // Theme dropdown
+            const STORAGE_KEY = 'ai-planner-theme'; // localStorage key
 
-            // Load saved theme from browser storage
-            const saved = localStorage.getItem(STORAGE_KEY);
-            if (saved) {
-                root.setAttribute('data-theme', saved);
-                if (select) select.value = saved;
+            // Load saved theme if available
+            const saved = localStorage.getItem(STORAGE_KEY); // Get saved theme
+            if (saved) { // If a theme was saved
+                root.setAttribute('data-theme', saved); // Apply saved theme
+                if (select) select.value = saved; // Set dropdown value
             }
 
-            // Apply and save theme changes
-            if (select) {
-                select.addEventListener('change', function () {
-                    const val = this.value;
-                    root.setAttribute('data-theme', val);
-                    localStorage.setItem(STORAGE_KEY, val);
+            // Listen for theme changes
+            if (select) { // If dropdown exists
+                select.addEventListener('change', function () { // On change event
+                    const val = this.value; // Selected theme value
+                    root.setAttribute('data-theme', val); // Apply new theme
+                    localStorage.setItem(STORAGE_KEY, val); // Save new theme
                 });
             }
         })();
-    </script>
+    </script> <!-- End script -->
 
-</body>
-</html>
+</body> <!-- End of body -->
+
+</html> <!-- End of HTML document -->

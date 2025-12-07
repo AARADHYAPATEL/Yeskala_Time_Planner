@@ -7,10 +7,10 @@ For more information on this file, see
 https://docs.djangoproject.com/en/5.2/howto/deployment/wsgi/
 """
 
-import os
+import os # Import os module for environment variable management
 
-from django.core.wsgi import get_wsgi_application
+from django.core.wsgi import get_wsgi_application # Import WSGI application handler
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ai_planner.settings")
-
-application = get_wsgi_application()
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ai_planner.settings") # Set default settings module
+ 
+application = get_wsgi_application() # Get WSGI application instance

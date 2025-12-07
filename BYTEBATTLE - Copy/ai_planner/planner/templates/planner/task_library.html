@@ -1,269 +1,312 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
+{% load static %} {# Django template: load the 'static' tag library for serving static files #}
+<!DOCTYPE html> <!-- HTML: Declare HTML5 document type -->
+<html> <!-- HTML: Root element of the page -->
 
-<head>
-    <title>Task Library</title>
-    <style>
-        body {
-            background: var(--bg-body, #020617);
-            color: var(--text-main, #e5e7eb);
-            font-family: system-ui;
-            padding: 2rem;
+
+<head> <!-- HTML: Head section for title and styles -->
+    <title>Task Library</title> <!-- HTML: Browser tab title text -->
+    <style> /* CSS: Start of embedded stylesheet */
+        body { /* CSS: Base styles for the page body */
+            background: var(--bg-body, #020617); /* CSS: Use theme background variable or dark fallback */
+            color: var(--text-main, #e5e7eb); /* CSS: Use theme text color or light gray fallback */
+            font-family: system-ui; /* CSS: Use system UI font */
+            padding: 2rem; /* CSS: Outer padding around content */
         }
 
-        .box {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid var(--border-subtle, rgba(148, 163, 184, 0.3));
-            padding: 1.5rem;
-            border-radius: 1rem;
-            max-width: 700px;
-            margin: auto;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+
+        .box { /* CSS: Main centered content card */
+            background: rgba(15, 23, 42, 0.9); /* CSS: Dark semi-transparent background */
+            border: 1px solid var(--border-subtle, rgba(148, 163, 184, 0.3)); /* CSS: Themed or fallback border color */
+            padding: 1.5rem; /* CSS: Inner spacing inside the card */
+            border-radius: 1rem; /* CSS: Rounded corners */
+            max-width: 700px; /* CSS: Limit card width for readability */
+            margin: auto; /* CSS: Center card horizontally */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); /* CSS: Shadow for depth */
         }
 
-        .task-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+
+        .task-row { /* CSS: Generic row layout for tasks (not used in final markup but kept for layout) */
+            display: flex; /* CSS: Horizontal flex layout */
+            justify-content: space-between; /* CSS: Space between children */
+            padding: 0.5rem 0; /* CSS: Vertical padding */
+            border-bottom: 1px solid rgba(148, 163, 184, 0.15); /* CSS: Subtle bottom divider */
         }
 
-        .task-row:last-child {
-            border-bottom: none;
+
+        .task-row:last-child { /* CSS: Remove border for last row */
+            border-bottom: none; /* CSS: No divider on final item */
         }
+
 
         input,
-        select {
-            padding: 0.4rem;
-            border-radius: 6px;
-            border: 1px solid rgba(148, 163, 184, 0.4);
-            background: rgba(15, 23, 42, 0.6);
-            color: var(--text-main);
-            margin-top: 0.3rem;
+        select { /* CSS: Base styles for all input and select fields */
+            padding: 0.4rem; /* CSS: Inner padding */
+            border-radius: 6px; /* CSS: Slightly rounded corners */
+            border: 1px solid rgba(148, 163, 184, 0.4); /* CSS: Soft gray border */
+            background: rgba(15, 23, 42, 0.6); /* CSS: Dark semi-transparent background */
+            color: var(--text-main); /* CSS: Themed text color */
+            margin-top: 0.3rem; /* CSS: Space above each field */
         }
 
-        button {
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            background: var(--accent, #0ea5e9);
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 1rem;
+
+        button { /* CSS: Base button styling */
+            padding: 0.5rem 1rem; /* CSS: Size of clickable area */
+            border-radius: 8px; /* CSS: Rounded button corners */
+            background: var(--accent, #0ea5e9); /* CSS: Use theme accent color or blue fallback */
+            color: white; /* CSS: White button text */
+            border: none; /* CSS: Remove default border */
+            cursor: pointer; /* CSS: Pointer cursor on hover */
+            margin-top: 1rem; /* CSS: Space above button */
         }
 
-        a.delete {
-            color: #f87171;
-            text-decoration: none;
+
+        a.delete { /* CSS: Styles for delete links with 'delete' class */
+            color: #f87171; /* CSS: Red color indicating danger/delete */
+            text-decoration: none; /* CSS: Remove underline */
         }
 
-        a.back {
-            display: inline-block;
-            margin-top: 1rem;
-            color: var(--accent);
+
+        a.back { /* CSS: Styles for generic back links (not used; superseded by .back-link) */
+            display: inline-block; /* CSS: Allow margin and padding */
+            margin-top: 1rem; /* CSS: Space above link */
+            color: var(--accent); /* CSS: Accent color text */
         }
 
-        .task-form {
-            display: grid;
-            grid-template-columns: minmax(0, 2fr) 160px;
-            grid-template-rows: auto auto;
-            column-gap: 1.5rem;
-            row-gap: 0.9rem;
-            align-items: end;
-            margin-top: 1rem;
+
+        .task-form { /* CSS: Grid layout for "Add New Task" form */
+            display: grid; /* CSS: Use CSS Grid */
+            grid-template-columns: minmax(0, 2fr) 160px; /* CSS: First column flexible, second fixed width (for button) */
+            grid-template-rows: auto auto; /* CSS: Two rows for fields and alignment */
+            column-gap: 1.5rem; /* CSS: Horizontal gap between columns */
+            row-gap: 0.9rem; /* CSS: Vertical gap between rows */
+            align-items: end; /* CSS: Align items at the bottom (baseline) */
+            margin-top: 1rem; /* CSS: Space above form */
         }
 
-        .task-form label {
-            display: flex;
-            flex-direction: column;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--text-main, #e5e7eb);
+
+        .task-form label { /* CSS: Labels inside the task form */
+            display: flex; /* CSS: Use flex layout */
+            flex-direction: column; /* CSS: Stack label text and field vertically */
+            font-size: 0.95rem; /* CSS: Slightly larger label text */
+            font-weight: 500; /* CSS: Medium weight */
+            color: var(--text-main, #e5e7eb); /* CSS: Main text color */
         }
+
 
         .task-form input,
-        .task-form select {
-            margin-top: 0.25rem;
-            padding: 0.5rem 0.7rem;
-            border-radius: 0.6rem;
-            border: 1px solid rgba(148, 163, 184, 0.5);
-            background: rgba(15, 23, 42, 0.85);
-            color: var(--text-main, #e5e7eb);
-            outline: none;
-            font-size: 0.9rem;
+        .task-form select { /* CSS: Inputs/selects specifically inside task-form */
+            margin-top: 0.25rem; /* CSS: Small spacing from label text */
+            padding: 0.5rem 0.7rem; /* CSS: Comfortable padding */
+            border-radius: 0.6rem; /* CSS: Rounded corners */
+            border: 1px solid rgba(148, 163, 184, 0.5); /* CSS: Slightly stronger border */
+            background: rgba(15, 23, 42, 0.85); /* CSS: Darker background */
+            color: var(--text-main, #e5e7eb); /* CSS: Text color inside fields */
+            outline: none; /* CSS: Remove default focus outline */
+            font-size: 0.9rem; /* CSS: Input text size */
         }
 
-        .task-form input::placeholder {
-            color: rgba(148, 163, 184, 0.8);
+
+        .task-form input::placeholder { /* CSS: Placeholder styling for text inputs in form */
+            color: rgba(148, 163, 184, 0.8); /* CSS: Muted placeholder text */
         }
 
-        .task-form button {
-            grid-row: span 2;
-            align-self: stretch;
-            padding: 0.7rem 1.2rem;
-            border-radius: 999px;
-            border: none;
-            background: linear-gradient(90deg, #0ea5e9, #22c55e);
-            color: #0b1120;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-            box-shadow: 0 12px 28px rgba(15, 185, 255, 0.25);
-            transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+
+        .task-form button { /* CSS: Primary "Save Task" button inside task-form */
+            grid-row: span 2; /* CSS: Button spans both grid rows */
+            align-self: stretch; /* CSS: Stretch button vertically to fill space */
+            padding: 0.7rem 1.2rem; /* CSS: Button padding */
+            border-radius: 999px; /* CSS: Fully rounded pill shape */
+            border: none; /* CSS: No border */
+            background: linear-gradient(90deg, #0ea5e9, #22c55e); /* CSS: Blue-to-green gradient */
+            color: #0b1120; /* CSS: Dark text for high contrast */
+            font-weight: 700; /* CSS: Bold label */
+            font-size: 0.95rem; /* CSS: Button text size */
+            cursor: pointer; /* CSS: Pointer cursor */
+            box-shadow: 0 12px 28px rgba(15, 185, 255, 0.25); /* CSS: Glow-like shadow */
+            transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease; /* CSS: Smooth hover/active transitions */
         }
 
-        .task-form button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 18px 36px rgba(15, 185, 255, 0.35);
-            filter: brightness(1.05);
+
+        .task-form button:hover { /* CSS: Hover state for Save Task button */
+            transform: translateY(-1px); /* CSS: Slight lift effect */
+            box-shadow: 0 18px 36px rgba(15, 185, 255, 0.35); /* CSS: Stronger shadow on hover */
+            filter: brightness(1.05); /* CSS: Slightly brighten button */
         }
 
-        .task-form button:active {
-            transform: translateY(0);
-            box-shadow: 0 8px 18px rgba(15, 185, 255, 0.25);
+
+        .task-form button:active { /* CSS: Active/pressed state for Save Task button */
+            transform: translateY(0); /* CSS: Reset position when pressed */
+            box-shadow: 0 8px 18px rgba(15, 185, 255, 0.25); /* CSS: Smaller shadow on press */
         }
 
-        /* Mobile tweak: stack everything vertically */
-        @media (max-width: 780px) {
-            .task-form {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto;
+
+        /* Mobile tweak: stack everything vertically */ /* CSS: Comment explaining responsive behavior */
+        @media (max-width: 780px) { /* CSS: Media query for screens <= 780px wide */
+            .task-form { /* CSS: Adjust task form layout on small screens */
+                grid-template-columns: 1fr; /* CSS: Single column layout */
+                grid-template-rows: auto; /* CSS: Automatic rows */
             }
 
-            .task-form button {
-                grid-row: auto;
-                width: 100%;
-                margin-top: 0.5rem;
+
+            .task-form button { /* CSS: Button behavior on small screens */
+                grid-row: auto; /* CSS: No longer spanning rows */
+                width: 100%; /* CSS: Full-width button */
+                margin-top: 0.5rem; /* CSS: Extra space above button */
             }
         }
 
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            padding: 0.4rem 0.7rem;
-            border-radius: 8px;
-            text-decoration: none;
-            color: var(--text-muted);
-            transition: 0.15s ease;
+
+        .back-link { /* CSS: Styled back link at bottom of page */
+            display: inline-flex; /* CSS: Inline flex container */
+            align-items: center; /* CSS: Vertically center arrow and text */
+            gap: 0.4rem; /* CSS: Space between arrow and label */
+            padding: 0.4rem 0.7rem; /* CSS: Inner padding */
+            border-radius: 8px; /* CSS: Rounded corners on hover area */
+            text-decoration: none; /* CSS: Remove underline */
+            color: var(--text-muted); /* CSS: Use muted text color */
+            transition: 0.15s ease; /* CSS: Smooth hover transitions */
         }
 
-        .back-link:hover {
-            color: var(--accent);
-            text-shadow: 0 0 6px var(--accent);
-            background: rgba(0, 0, 0, 0.3);
+
+        .back-link:hover { /* CSS: Hover state for back link */
+            color: var(--accent); /* CSS: Change text to accent color */
+            text-shadow: 0 0 6px var(--accent); /* CSS: Glow effect around text */
+            background: rgba(0, 0, 0, 0.3); /* CSS: Darken background slightly */
         }
 
-        .saved-task-list {
-            margin-top: 1.5rem;
-            padding: 0;
-            list-style: none;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(4px);
+
+        .saved-task-list { /* CSS: Container for the list of saved tasks */
+            margin-top: 1.5rem; /* CSS: Space above list */
+            padding: 0; /* CSS: Remove default list padding */
+            list-style: none; /* CSS: Remove bullets */
+            border-radius: 12px; /* CSS: Rounded list container */
+            overflow: hidden; /* CSS: Clip child borders to radius */
+            border: 1px solid rgba(255, 255, 255, 0.05); /* CSS: Light border */
+            background: rgba(255, 255, 255, 0.02); /* CSS: Very subtle light background */
+            backdrop-filter: blur(4px); /* CSS: Glassmorphism blur effect */
         }
 
-        .saved-task-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            transition: background 0.2s ease, transform 0.15s ease;
+
+        .saved-task-item { /* CSS: Single row for a saved task */
+            display: flex; /* CSS: Horizontal flex layout */
+            justify-content: space-between; /* CSS: Space between info and delete link */
+            align-items: center; /* CSS: Vertically center content */
+            padding: 1rem 1.2rem; /* CSS: Inner padding */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06); /* CSS: Row divider */
+            transition: background 0.2s ease, transform 0.15s ease; /* CSS: Smooth hover transitions */
         }
 
-        .saved-task-item:last-child {
-            border-bottom: none;
+
+        .saved-task-item:last-child { /* CSS: Last item border handling */
+            border-bottom: none; /* CSS: No divider after final task */
         }
 
-        .saved-task-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateX(3px);
+
+        .saved-task-item:hover { /* CSS: Hover state for a saved task row */
+            background: rgba(255, 255, 255, 0.05); /* CSS: Lighten background slightly */
+            transform: translateX(3px); /* CSS: Subtle slide to the right */
         }
 
-        .task-info {
-            font-size: 1.05rem;
-            color: #e5e7eb;
-            font-weight: 500;
+
+        .task-info { /* CSS: Main task name styling */
+            font-size: 1.05rem; /* CSS: Slightly larger text */
+            color: #e5e7eb; /* CSS: Light text color */
+            font-weight: 500; /* CSS: Medium weight */
         }
 
-        .task-meta {
-            font-size: 0.9rem;
-            color: #9ca3af;
-            margin-top: 4px;
+
+        .task-meta { /* CSS: Meta info for task (duration, importance) */
+            font-size: 0.9rem; /* CSS: Smaller text for meta */
+            color: #9ca3af; /* CSS: Muted gray color */
+            margin-top: 4px; /* CSS: Small space above meta text */
         }
 
-        .delete-btn {
-            color: #ff6b6b;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color 0.2s ease, transform 0.15s ease;
+
+        .delete-btn { /* CSS: Styled delete link for each task */
+            color: #ff6b6b; /* CSS: Red text color indicating delete */
+            font-weight: 600; /* CSS: Semi-bold */
+            cursor: pointer; /* CSS: Pointer cursor */
+            text-decoration: none; /* CSS: Remove underline */
+            font-size: 0.95rem; /* CSS: Button-like size */
+            transition: color 0.2s ease, transform 0.15s ease; /* CSS: Smooth hover transitions */
         }
 
-        .delete-btn:hover {
-            color: #ff8787;
-            transform: translateX(2px);
+
+        .delete-btn:hover { /* CSS: Hover state for delete link */
+            color: #ff8787; /* CSS: Slightly lighter red */
+            transform: translateX(2px); /* CSS: Subtle nudge on hover */
         }
-    </style>
-</head>
+    </style> <!-- CSS: End of embedded styles -->
+</head> <!-- HTML: End of head section -->
 
-<body>
 
-    <div class="box">
-        <h2>Task Library</h2>
+<body> <!-- HTML: Start of visible page body -->
 
-        <h3>Add New Task</h3>
-        <form method="POST" class="task-form">
-            {% csrf_token %}
-            <label>Name</label>
-            <input type="text" name="name" required>
 
-            <label>Default Duration (minutes)</label>
-            <input type="number" name="duration" value="30">
+    <div class="box"> <!-- HTML: Main card wrapper for the task library UI -->
+        <h2>Task Library</h2> <!-- HTML: Section title for the page -->
 
-            <label>Default Importance</label>
-            <select name="importance">
-                <option value="3">Must-do</option>
-                <option value="2" selected>Should-do</option>
-                <option value="1">Nice-to-have</option>
+
+        <h3>Add New Task</h3> <!-- HTML: Subheading for the task creation form -->
+        <form method="POST" class="task-form"> <!-- HTML: Form to add a new task; uses POST method and task-form grid layout -->
+            {% csrf_token %} {# Django template: Insert CSRF token for form security #}
+            <label>Name</label> <!-- HTML: Label for task name field -->
+            <input type="text" name="name" required> <!-- HTML: Text input for task name; required field -->
+
+
+            <label>Default Duration (minutes)</label> <!-- HTML: Label for default duration field -->
+            <input type="number" name="duration" value="30"> <!-- HTML: Number input for default duration, default 30 minutes -->
+
+
+            <label>Default Importance</label> <!-- HTML: Label for importance select -->
+            <select name="importance"> <!-- HTML: Select box for importance level -->
+                <option value="3">Must-do</option> <!-- HTML: Option for highest importance -->
+                <option value="2" selected>Should-do</option> <!-- HTML: Default selected medium importance -->
+                <option value="1">Nice-to-have</option> <!-- HTML: Lowest importance option -->
             </select>
 
-            <label>Category (optional)</label>
-            <input type="text" name="category" placeholder="e.g. Homework, Sports">
 
-            <button type="submit">Save Task</button>
+            <label>Category (optional)</label> <!-- HTML: Label for category field -->
+            <input type="text" name="category" placeholder="e.g. Homework, Sports"> <!-- HTML: Optional text input for category with example placeholder -->
+
+
+            <button type="submit">Save Task</button> <!-- HTML: Submit button to create/save new task -->
         </form>
 
-        <h3 style="margin-top:2rem;">Saved Tasks</h3>
 
-        {% if tasks %}
-        <ul class="saved-task-list">
-            {% for t in tasks %}
-            <li class="saved-task-item">
-                <div>
-                    <div class="task-info">{{ t.name }}</div>
+        <h3 style="margin-top:2rem;">Saved Tasks</h3> <!-- HTML: Subheading for saved tasks list with extra top margin -->
+
+
+        {% if tasks %} {# Django template: If there are saved tasks in the context #}
+        <ul class="saved-task-list"> <!-- HTML: Unordered list container styled as saved-task-list -->
+            {% for t in tasks %} {# Django template: Loop over each task object 't' in tasks #}
+            <li class="saved-task-item"> <!-- HTML: Single saved task row -->
+                <div> <!-- HTML: Wrapper for task textual info -->
+                    <div class="task-info">{{ t.name }}</div> <!-- HTML + Django: Show task name from model -->
                     <div class="task-meta">
                         {{ t.default_duration_minutes }}m, importance {{ t.default_importance }}
+                        <!-- HTML + Django: Show default duration and importance values -->
                     </div>
                 </div>
 
+
                 <a href="{% url 'delete_saved_task' t.id %}" class="delete-btn">Delete</a>
+                <!-- HTML + Django: Link that hits delete_saved_task URL with task id; styled as delete button -->
             </li>
-            {% endfor %}
+            {% endfor %} {# Django template: End of tasks loop #}
         </ul>
-        {% else %}
-        <p>No saved tasks yet.</p>
-        {% endif %}
+        {% else %} {# Django template: If no tasks exist #}
+        <p>No saved tasks yet.</p> <!-- HTML: Message shown when there are no saved tasks -->
+        {% endif %} {# Django template: End of "if tasks" block #}
+
 
 
         <a href="{% url 'planner' %}" class="back-link">← Back to Planner</a>
-    </div>
+        <!-- HTML + Django: Link back to main planner page, styled with back-link class -->
+    </div> <!-- HTML: End of main box wrapper -->
 
-</body>
 
-</html>
+</body> <!-- HTML: End of page body -->
+
+
+</html> <!-- HTML: End of document -->
